@@ -4,25 +4,23 @@ package com.twu.biblioteca;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.PrintStream;
 import java.lang.StringBuilder;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Formatter;
 
 public class BibliotecaAppTest {
 
     @Test
     public void testBibliotecaStartup() {
         StringBuilder expectedOutput = new StringBuilder();
-
         expectedOutput.append("Welcome to Biblioteca!\n");
         expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
         expectedOutput.append("(1) List Books\n");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        BibliotecaApp.main(new String[] {});
+        ByteArrayOutputStream outContent = initSystemOutStream();
+        BibliotecaApp.displayStartup();
 
         assertEquals(expectedOutput.toString(), outContent.toString());
     }
@@ -30,10 +28,18 @@ public class BibliotecaAppTest {
     @Test
     public void testSelectMenuOptionListBooks() {
         StringBuilder expectedOutput = new StringBuilder();
+        expectedOutput.append(printBookList());
+
+        ByteArrayOutputStream outContent = initSystemOutStream();
+        BibliotecaApp.selectMenuOption(1);
+
+        assertEquals(expectedOutput.toString(), outContent.toString());
+    }
+
+    private ByteArrayOutputStream initSystemOutStream() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        BibliotecaApp.selectMenuOption(1);
-        assertEquals(expectedOutput.toString(), outContent.toString());
+        return outContent;
     }
 
     private String printBookList() {

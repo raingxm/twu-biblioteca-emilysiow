@@ -1,16 +1,29 @@
 package com.twu.biblioteca;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BibliotecaApp {
 
     private static List<Book> bookList = initBookList();
 
     public static void main(String[] args) {
+        displayStartup();
+        Scanner console = new Scanner(System.in);
+        int menuOption = console.nextInt();
+        selectMenuOption(menuOption);
+    }
+
+    public static void displayStartup() {
         System.out.println("Welcome to Biblioteca!");
         System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
         System.out.println("(1) List Books");
-//        printBookList();
+    }
+
+    public static void selectMenuOption(int menuOption) {
+        if(menuOption == 1) {
+            printBookList();
+        }
     }
 
     private static void printBookList() {
