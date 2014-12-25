@@ -54,6 +54,19 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
+
+    @Test
+    public void testSelectMenuOptionCheckoutBook() {
+        StringBuilder expectedOutput = new StringBuilder();
+        displayCheckoutMenu(expectedOutput);
+
+        ByteArrayOutputStream output = initSystemOutStream();
+        InputStream input = initSystemInStream("quit");
+        BibliotecaApp.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
     @Test
     public void testSelectMenuOptionsUntilQuit() {
         StringBuilder expectedOutput = new StringBuilder();
@@ -69,32 +82,17 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testCheckoutBook() {
-        List<Book> bookList = generateBookList();
-        StringBuilder expectedOutput = new StringBuilder();
-        displayBookList(expectedOutput, bookList);
-        bookList.remove(2);
-        displayBookList(expectedOutput, bookList);
-
-        ByteArrayOutputStream output = initSystemOutStream();
-        BibliotecaApp.printBookList();
-        BibliotecaApp.checkoutBook("Head First Java");
-        BibliotecaApp.printBookList();
-
-        assertEquals(expectedOutput.toString(), output.toString());
-    }
-
-    @Test
-    public void testSelectMenuOptionCheckoutBook() {
+    public void testSuccessfulCheckout() {
         StringBuilder expectedOutput = new StringBuilder();
         displayCheckoutMenu(expectedOutput);
         List<Book> bookList = generateBookList();
         bookList.remove(2);
+        displayCheckoutSuccessMessage(expectedOutput);
         displayBookList(expectedOutput, bookList);
 
         ByteArrayOutputStream output = initSystemOutStream();
         InputStream input = initSystemInStream("Head First Java");
-        BibliotecaApp.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
+        BibliotecaApp.runCheckoutMenu();
         BibliotecaApp.printBookList();
 
         assertEquals(expectedOutput.toString(), output.toString());
@@ -117,6 +115,11 @@ public class BibliotecaAppTest {
     private void displayStartupMessage(StringBuilder expectedOutput) {
         expectedOutput.append("Welcome to Biblioteca!\n");
     }
+
+    private void displayCheckoutSuccessMessage(StringBuilder expectedOutput) {
+        expectedOutput.append("Thank you! Enjoy the book\n");
+    }
+
 
     private void displayMainMenu(StringBuilder expectedOutput) {
         expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
