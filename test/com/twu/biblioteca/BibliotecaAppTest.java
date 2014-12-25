@@ -29,7 +29,7 @@ public class BibliotecaAppTest {
     @Test
     public void testSelectMenuOptionListBooks() {
         StringBuilder expectedOutput = new StringBuilder();
-        displayBookList(expectedOutput);
+        displayBookList(expectedOutput, generateBookList());
 
         ByteArrayOutputStream output = initSystemOutStream();
         BibliotecaApp.selectMenuOption(BibliotecaApp.LIST_BOOKS);
@@ -62,6 +62,23 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
+    @Test
+    public void testCheckoutBook() {
+        List<Book> bookList = generateBookList();
+        StringBuilder expectedOutput = new StringBuilder();
+        displayBookList(expectedOutput, generateBookList());
+        displayBookList(expectedOutput, bookList.subList(1,bookList.size()-1));
+
+        ByteArrayOutputStream output = initSystemOutStream();
+        BibliotecaApp.printBookList();
+        BibliotecaApp.checkoutBook(bookList.get(0));
+        BibliotecaApp.printBookList();
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
+    // helpers
+
     private ByteArrayOutputStream initSystemOutStream() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(baos));
@@ -87,8 +104,7 @@ public class BibliotecaAppTest {
         expectedOutput.append("Select a valid option!\n");
     }
 
-    private void displayBookList(StringBuilder expectedOutput) {
-        List<Book> bookList = generateBookList();
+    private void displayBookList(StringBuilder expectedOutput, List<Book> bookList) {
         expectedOutput.append("Book List\n");
         expectedOutput.append(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
 
