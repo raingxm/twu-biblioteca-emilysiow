@@ -84,6 +84,21 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
+    @Test
+    public void testSelectMenuOptionCheckoutBook() {
+        StringBuilder expectedOutput = new StringBuilder();
+        List<Book> bookList = generateBookList();
+        bookList.remove(2);
+        displayBookList(expectedOutput, bookList);
+
+        ByteArrayOutputStream output = initSystemOutStream();
+        InputStream input = initSystemInStream("Head First Java");
+        BibliotecaApp.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
+        BibliotecaApp.printBookList();
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
     // helpers
 
     private ByteArrayOutputStream initSystemOutStream() {
@@ -105,6 +120,7 @@ public class BibliotecaAppTest {
     private void displayMainMenu(StringBuilder expectedOutput) {
         expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
         expectedOutput.append("(1) List Books\n");
+        expectedOutput.append("(2) Checkout Book\n");
     }
 
     private void displayInvalidOptionMessage(StringBuilder expectedOutput) {
