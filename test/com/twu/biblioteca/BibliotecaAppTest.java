@@ -36,6 +36,18 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), outContent.toString());
     }
 
+    @Test
+    public void testSelectMenuOptionInvalidOption() {
+        StringBuilder expectedOutput = new StringBuilder();
+        expectedOutput.append("Select a valid option!");
+
+        ByteArrayOutputStream outContent = initSystemOutStream();
+        BibliotecaApp.selectMenuOption(-1);
+
+        assertEquals(expectedOutput.toString(), outContent.toString());
+    }
+
+
     private ByteArrayOutputStream initSystemOutStream() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
