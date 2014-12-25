@@ -8,7 +8,9 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         System.out.println("Welcome to Biblioteca!");
-        printBookList();
+        System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
+        System.out.println("(1) List Books");
+//        printBookList();
     }
 
     private static void printBookList() {
