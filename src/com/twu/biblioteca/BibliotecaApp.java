@@ -28,7 +28,11 @@ public class BibliotecaApp {
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
         while (!userInput.equalsIgnoreCase("quit")) {
-            selectMenuOption(Integer.parseInt(userInput));
+            if(isInteger(userInput)) {
+                selectMenuOption(Integer.parseInt(userInput));
+            } else {
+                System.out.println("Select a valid option!");
+            }
             userInput = console.nextLine();
         }
     }
@@ -87,5 +91,14 @@ public class BibliotecaApp {
 
     private static Book createNewBook(String title, String author, int yearPublished) {
         return new Book(title, author, yearPublished);
+    }
+
+    private static boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
