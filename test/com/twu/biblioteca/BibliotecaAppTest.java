@@ -113,6 +113,20 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
+    @Test
+    public void testReturnBook() {
+        List<Book> bookList = generateBookList();
+        displayBookList(expectedOutput, bookList);
+        bookList.remove(2);
+
+        input = initSystemInStream("Head First Java\n");
+        app.runReturnMenu();
+        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
+
     // helpers
 
     private ByteArrayOutputStream initSystemOutStream() {
