@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -53,7 +52,7 @@ public class BibliotecaAppTest {
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
-    
+
     @Test
     public void testSelectMenuOptionCheckoutBook() {
         displayCheckoutMenu(expectedOutput);
@@ -84,9 +83,9 @@ public class BibliotecaAppTest {
         displaySuccessfulCheckoutMessage(expectedOutput);
         displayBookList(expectedOutput, bookList);
 
-        input = initSystemInStream("Head First Java");
+        input = initSystemInStream("Head First Java\n");
         app.runCheckoutMenu();
-        app.printBookList();
+        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
         assertEquals(expectedOutput.toString(), output.toString());
     }

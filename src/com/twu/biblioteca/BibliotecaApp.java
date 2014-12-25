@@ -8,7 +8,7 @@ public class BibliotecaApp {
     public static int LIST_BOOKS = 1;
     public static int CHECKOUT_BOOK = 2;
 
-    private static List<Book> bookList;
+    private static List<Book> bookList = initBookList();
 
     public static void main(String[] args) {
         displayStartup();
@@ -47,7 +47,9 @@ public class BibliotecaApp {
         System.out.println("Enter the title of the book you wish to check out: ");
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
-        checkoutBook(userInput);
+        if (!userInput.equalsIgnoreCase("quit")) {
+            checkoutBook(userInput);
+        }
     }
 
     public static void checkoutBook(String bookTitle) {
@@ -60,6 +62,8 @@ public class BibliotecaApp {
         if (book != null) {
             bookList.remove(book);
             System.out.println("Thank you! Enjoy the book");
+        } else {
+            System.out.println("That book is not available.");
         }
     }
 
