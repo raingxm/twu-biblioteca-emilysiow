@@ -67,11 +67,12 @@ public class BibliotecaAppTest {
         List<Book> bookList = generateBookList();
         StringBuilder expectedOutput = new StringBuilder();
         displayBookList(expectedOutput, generateBookList());
-        displayBookList(expectedOutput, bookList.subList(1,bookList.size()-1));
+        bookList.remove(2);
+        displayBookList(expectedOutput, bookList);
 
         ByteArrayOutputStream output = initSystemOutStream();
         BibliotecaApp.printBookList();
-        BibliotecaApp.checkoutBook(bookList.get(0));
+        BibliotecaApp.checkoutBook("Head First Java");
         BibliotecaApp.printBookList();
 
         assertEquals(expectedOutput.toString(), output.toString());
