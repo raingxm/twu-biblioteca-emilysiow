@@ -17,7 +17,8 @@ public class BibliotecaAppTest {
         StringBuilder expectedOutput = new StringBuilder();
 
         expectedOutput.append("Welcome to Biblioteca!\n");
-        expectedOutput.append(printBookList());
+        expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
+        expectedOutput.append("(1) List Books");
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
