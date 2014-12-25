@@ -5,14 +5,19 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
+    public static int LIST_BOOKS = 1;
+
     private static List<Book> bookList = initBookList();
 
     public static void main(String[] args) {
         displayStartup();
 
         Scanner console = new Scanner(System.in);
-        int menuOption = console.nextInt();
-        selectMenuOption(menuOption);
+        String userInput = console.nextLine();
+        while (!userInput.equalsIgnoreCase("quit")) {
+            selectMenuOption(Integer.parseInt(userInput));
+            userInput = console.nextLine();
+        }
     }
 
     public static void displayStartup() {
@@ -22,7 +27,7 @@ public class BibliotecaApp {
     }
 
     public static void selectMenuOption(int menuOption) {
-        if(menuOption == 1) {
+        if(menuOption == LIST_BOOKS) {
             printBookList();
         } else {
             System.out.println("Select a valid option!");
