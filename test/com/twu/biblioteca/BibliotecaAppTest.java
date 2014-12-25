@@ -54,7 +54,7 @@ public class BibliotecaAppTest {
         displayBookList(expectedOutput);
 
         ByteArrayOutputStream output = initSystemOutStream();
-        InputStream input = initSystemInStream("-1\n1");
+        InputStream input = initSystemInStream("-1\n1\nquit");
         BibliotecaApp.main(new String[]{});
 
         assertEquals(expectedOutput.toString(), output.toString());
