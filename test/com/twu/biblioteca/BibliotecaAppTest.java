@@ -29,11 +29,11 @@ public class BibliotecaAppTest {
     private String printBookList() {
         List<Book> bookList = generateBookList();
         StringBuilder output = new StringBuilder();
-        output.append("Book List:");
+        output.append("Book List\n");
+        output.append(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
 
-        String leftAlignFormat = "%-32s | %-32s | %-4d\n";
-        output.append(String.format(leftAlignFormat, "Title", "Author", "Year Published"));
-        for (List<Book> book : bookList) {
+        String leftAlignFormat = "%-42s | %-32s | %-4d\n";
+        for (Book book : bookList) {
             output.append(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
         }
         return output.toString();
@@ -44,7 +44,7 @@ public class BibliotecaAppTest {
         bookList.add(new Book("Test-Driven Development By Example", "Kent Beck", 2003));
         bookList.add(new Book("The Agile Samurai", "Jonathan Rasmusson", 2010));
         bookList.add(new Book("Head First Java", "Kathy Sierra & Bert Bates", 2005));
-        bookList.add(new Book("Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability", "Steve Krug", 2014));
+        bookList.add(new Book("Don't Make Me Think, Revisited", "Steve Krug", 2014));
         return bookList;
     }
 }
