@@ -87,6 +87,7 @@ public class BibliotecaAppTest {
     @Test
     public void testSelectMenuOptionCheckoutBook() {
         StringBuilder expectedOutput = new StringBuilder();
+        displayCheckoutMenu(expectedOutput);
         List<Book> bookList = generateBookList();
         bookList.remove(2);
         displayBookList(expectedOutput, bookList);
@@ -125,6 +126,10 @@ public class BibliotecaAppTest {
 
     private void displayInvalidOptionMessage(StringBuilder expectedOutput) {
         expectedOutput.append("Select a valid option!\n");
+    }
+
+    private void displayCheckoutMenu(StringBuilder expectedOutput) {
+        expectedOutput.append("Enter the title of the book you wish to check out: \n");
     }
 
     private void displayBookList(StringBuilder expectedOutput, List<Book> bookList) {

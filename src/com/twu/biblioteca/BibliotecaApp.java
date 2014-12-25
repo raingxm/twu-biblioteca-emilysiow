@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class BibliotecaApp {
 
     public static int LIST_BOOKS = 1;
+    public static int CHECKOUT_BOOK = 2;
 
     private static List<Book> bookList;
 
@@ -22,6 +23,7 @@ public class BibliotecaApp {
     public static void runMainMenu() {
         System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
         System.out.println("(1) List Books");
+        System.out.println("(2) Checkout Book");
 
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
@@ -34,9 +36,18 @@ public class BibliotecaApp {
     public static void selectMenuOption(int menuOption) {
         if(menuOption == LIST_BOOKS) {
             printBookList();
+        } else if(menuOption == CHECKOUT_BOOK) {
+            runCheckoutMenu();
         } else {
             System.out.println("Select a valid option!");
         }
+    }
+
+    public static void runCheckoutMenu() {
+        System.out.println("Enter the title of the book you wish to check out: ");
+        Scanner console = new Scanner(System.in);
+        String userInput = console.nextLine();
+        checkoutBook(userInput);
     }
 
     public static void checkoutBook(String bookTitle) {
