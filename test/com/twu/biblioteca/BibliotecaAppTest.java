@@ -3,6 +3,8 @@ package com.twu.biblioteca;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -68,8 +70,9 @@ public class BibliotecaAppTest {
     @Test
     public void testSelectMenuOptionCheckoutBook() {
         displayCheckoutMenu(expectedOutput);
+        displayUnsuccessfulCheckoutMessage(expectedOutput);
 
-        input = initSystemInStream("quit");
+        input = initSystemInStream("\nquit");
         app.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
 
         assertEquals(expectedOutput.toString(), output.toString());
@@ -91,14 +94,17 @@ public class BibliotecaAppTest {
     public void testSuccessfulCheckout() {
         displayCheckoutMenu(expectedOutput);
         List<Book> bookList = generateBookList();
-        bookList.remove(2);
+        Book bookToCheckout = bookList.remove(2);
         displaySuccessfulCheckoutMessage(expectedOutput);
         displayBookList(expectedOutput, bookList);
 
-        input = initSystemInStream("Head First Java\n");
+        assertTrue(app.isBookAvailable(bookToCheckout.getTitle()));
+
+        input = initSystemInStream(bookToCheckout.getTitle() + "\n");
         app.runCheckoutMenu();
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
+        assertTrue(!app.isBookAvailable(bookToCheckout.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
@@ -117,12 +123,15 @@ public class BibliotecaAppTest {
     public void testReturnBook() {
         List<Book> bookList = generateBookList();
         displayBookList(expectedOutput, bookList);
-        bookList.remove(2);
+        Book bookToReturn = bookList.remove(2);
 
-        input = initSystemInStream("Head First Java\n");
+        app.checkoutBook(bookToReturn.getTitle());
+        assertTrue(!app.isBookAvailable(bookToReturn.getTitle()));
+
+        input = initSystemInStream(bookToReturn.getTitle() + "\n");
         app.runReturnMenu();
-        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
+        assertTrue(app.isBookAvailable(bookToCheckout.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
