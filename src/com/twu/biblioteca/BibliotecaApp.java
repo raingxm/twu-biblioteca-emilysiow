@@ -59,6 +59,7 @@ public class BibliotecaApp {
         }
         if (book != null) {
             bookList.remove(book);
+            System.out.println("Thank you! Enjoy the book");
         }
     }
 
