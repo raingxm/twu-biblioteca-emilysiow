@@ -4,18 +4,30 @@ import java.util.ArrayList;
 
 public class BibliotecaApp {
 
-    private static List<String> bookList = new ArrayList<String>();
+    private static List<Book> bookList = initBookList();
 
     public static void main(String[] args) {
-        bookList.add("Test-Driven Development By Example");
-        bookList.add("The Agile Samurai");
-        bookList.add("Head First Java");
-        bookList.add("Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability");
-
         System.out.println("Welcome to Biblioteca!");
+        printBookList();
+    }
+
+    private static void printBookList() {
         System.out.println("Book list:");
-        for (String book : bookList) {
-            System.out.println(book);
+        for (Book book : bookList) {
+            System.out.println(book.toString());
         }
+    }
+
+    private static List<Book> initBookList() {
+        List<Book> newBookList = new ArrayList<Book>();
+        newBookList.add(createNewBook("Test-Driven Development By Example"));
+        newBookList.add(createNewBook("The Agile Samurai"));
+        newBookList.add(createNewBook("Head First Java"));
+        newBookList.add(createNewBook("Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability"));
+        return newBookList;
+    }
+
+    private static Book createNewBook(String title) {
+        return new Book(title);
     }
 }
