@@ -12,9 +12,11 @@ public class BibliotecaApp {
     }
 
     private static void printBookList() {
-        System.out.println("Book list:");
+        System.out.println("Book List");
+        System.out.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
+        String leftAlignFormat = "%-42s | %-32s | %-4d\n";
         for (Book book : bookList) {
-            System.out.println(book.toString());
+            System.out.print(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
         }
     }
 
@@ -23,7 +25,7 @@ public class BibliotecaApp {
         newBookList.add(createNewBook("Test-Driven Development By Example", "Kent Beck", 2003));
         newBookList.add(createNewBook("The Agile Samurai", "Jonathan Rasmusson", 2010));
         newBookList.add(createNewBook("Head First Java", "Kathy Sierra & Bert Bates", 2005));
-        newBookList.add(createNewBook("Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability", "Steve Krug", 2014));
+        newBookList.add(createNewBook("Don't Make Me Think, Revisited", "Steve Krug", 2014));
         return newBookList;
     }
 
