@@ -14,86 +14,90 @@ import java.util.ArrayList;
 
 public class BibliotecaAppTest {
 
+    private StringBuilder expectedOutput;
+    private ByteArrayOutputStream output;
+    private InputStream input;
+    private BibliotecaApp app;
+
     @Before public void initialize() {
-        BibliotecaApp app = new BibliotecaApp();
+        app = new BibliotecaApp();
         app.initBookList();
+        expectedOutput = new StringBuilder();
+        output = initSystemOutStream();
     }
 
     @Test
     public void testBibliotecaStartup() {
-        StringBuilder expectedOutput = new StringBuilder();
         displayStartupMessage(expectedOutput);
         displayMainMenu(expectedOutput);
 
-        ByteArrayOutputStream output = initSystemOutStream();
-        InputStream input = initSystemInStream("quit");
-        BibliotecaApp.main(new String[]{});
+        input = initSystemInStream("quit");
+        app.main(new String[]{});
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSelectMenuOptionListBooks() {
-        StringBuilder expectedOutput = new StringBuilder();
         displayBookList(expectedOutput, generateBookList());
 
-        ByteArrayOutputStream output = initSystemOutStream();
-        BibliotecaApp.selectMenuOption(BibliotecaApp.LIST_BOOKS);
+        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSelectMenuOptionInvalidOption() {
-        StringBuilder expectedOutput = new StringBuilder();
         displayInvalidOptionMessage(expectedOutput);
-
-        ByteArrayOutputStream output = initSystemOutStream();
-        BibliotecaApp.selectMenuOption(-1);
+        app.selectMenuOption(-1);
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
-
-
+    
     @Test
     public void testSelectMenuOptionCheckoutBook() {
-        StringBuilder expectedOutput = new StringBuilder();
         displayCheckoutMenu(expectedOutput);
 
-        ByteArrayOutputStream output = initSystemOutStream();
-        InputStream input = initSystemInStream("quit");
-        BibliotecaApp.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
+        input = initSystemInStream("quit");
+        app.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSelectMenuOptionsUntilQuit() {
-        StringBuilder expectedOutput = new StringBuilder();
         displayMainMenu(expectedOutput);
         displayInvalidOptionMessage(expectedOutput);
         displayInvalidOptionMessage(expectedOutput);
 
-        ByteArrayOutputStream output = initSystemOutStream();
-        InputStream input = initSystemInStream("-1\n-1\nquit");
-        BibliotecaApp.runMainMenu();
+        input = initSystemInStream("-1\n-1\nquit");
+        app.runMainMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSuccessfulCheckout() {
-        StringBuilder expectedOutput = new StringBuilder();
         displayCheckoutMenu(expectedOutput);
         List<Book> bookList = generateBookList();
         bookList.remove(2);
-        displayCheckoutSuccessMessage(expectedOutput);
+        displaySuccessfulCheckoutMessage(expectedOutput);
         displayBookList(expectedOutput, bookList);
 
-        ByteArrayOutputStream output = initSystemOutStream();
-        InputStream input = initSystemInStream("Head First Java");
-        BibliotecaApp.runCheckoutMenu();
-        BibliotecaApp.printBookList();
+        input = initSystemInStream("Head First Java");
+        app.runCheckoutMenu();
+        app.printBookList();
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
+    @Test
+    public void testUnsuccessfulCheckout() {
+        displayCheckoutMenu(expectedOutput);
+        displayUnsuccessfulCheckoutMessage(expectedOutput);
+
+        input = initSystemInStream("Head First C++");
+        app.runCheckoutMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
@@ -116,10 +120,13 @@ public class BibliotecaAppTest {
         expectedOutput.append("Welcome to Biblioteca!\n");
     }
 
-    private void displayCheckoutSuccessMessage(StringBuilder expectedOutput) {
+    private void displaySuccessfulCheckoutMessage(StringBuilder expectedOutput) {
         expectedOutput.append("Thank you! Enjoy the book\n");
     }
 
+    private void displayUnsuccessfulCheckoutMessage(StringBuilder expectedOutput) {
+        expectedOutput.append("That book is not available.\n");
+    }
 
     private void displayMainMenu(StringBuilder expectedOutput) {
         expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
