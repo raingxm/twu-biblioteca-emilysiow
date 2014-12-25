@@ -9,6 +9,7 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         displayStartup();
+
         Scanner console = new Scanner(System.in);
         int menuOption = console.nextInt();
         selectMenuOption(menuOption);

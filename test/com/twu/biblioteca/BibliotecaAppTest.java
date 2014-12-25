@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.StringBuilder;
 import java.util.List;
@@ -15,56 +16,81 @@ public class BibliotecaAppTest {
     @Test
     public void testBibliotecaStartup() {
         StringBuilder expectedOutput = new StringBuilder();
-        expectedOutput.append("Welcome to Biblioteca!\n");
-        expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
-        expectedOutput.append("(1) List Books\n");
+        displayStartupMessage(expectedOutput);
 
-        ByteArrayOutputStream outContent = initSystemOutStream();
+        ByteArrayOutputStream output = initSystemOutStream();
         BibliotecaApp.displayStartup();
 
-        assertEquals(expectedOutput.toString(), outContent.toString());
+        assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSelectMenuOptionListBooks() {
         StringBuilder expectedOutput = new StringBuilder();
-        expectedOutput.append(printBookList());
+        displayBookList(expectedOutput);
 
-        ByteArrayOutputStream outContent = initSystemOutStream();
+        ByteArrayOutputStream output = initSystemOutStream();
         BibliotecaApp.selectMenuOption(1);
 
-        assertEquals(expectedOutput.toString(), outContent.toString());
+        assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSelectMenuOptionInvalidOption() {
         StringBuilder expectedOutput = new StringBuilder();
-        expectedOutput.append("Select a valid option!\n");
+        displayInvalidOptionMessage(expectedOutput);
 
-        ByteArrayOutputStream outContent = initSystemOutStream();
+        ByteArrayOutputStream output = initSystemOutStream();
         BibliotecaApp.selectMenuOption(-1);
 
-        assertEquals(expectedOutput.toString(), outContent.toString());
+        assertEquals(expectedOutput.toString(), output.toString());
     }
 
+    @Test
+    public void testSelectMenuOptionsUntilQuit() {
+        StringBuilder expectedOutput = new StringBuilder();
+        displayStartupMessage(expectedOutput);
+        displayInvalidOptionMessage(expectedOutput);
+        displayBookList(expectedOutput);
+
+        ByteArrayOutputStream output = initSystemOutStream();
+        InputStream input = initSystemInStream("-1\n1");
+        BibliotecaApp.main(new String[]{});
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
 
     private ByteArrayOutputStream initSystemOutStream() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        return outContent;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+        return baos;
     }
 
-    private String printBookList() {
+    private ByteArrayInputStream initSystemInStream(String testValue) {
+        ByteArrayInputStream in = new ByteArrayInputStream(testValue.getBytes());
+        System.setIn(in);
+        return in;
+    }
+
+    private void displayStartupMessage(StringBuilder expectedOutput) {
+        expectedOutput.append("Welcome to Biblioteca!\n");
+        expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
+        expectedOutput.append("(1) List Books\n");
+    }
+
+    private void displayInvalidOptionMessage(StringBuilder expectedOutput) {
+        expectedOutput.append("Select a valid option!\n");
+    }
+
+    private void displayBookList(StringBuilder expectedOutput) {
         List<Book> bookList = generateBookList();
-        StringBuilder output = new StringBuilder();
-        output.append("Book List\n");
-        output.append(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
+        expectedOutput.append("Book List\n");
+        expectedOutput.append(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
 
         String leftAlignFormat = "%-42s | %-32s | %-4d\n";
         for (Book book : bookList) {
-            output.append(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
+            expectedOutput.append(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
         }
-        return output.toString();
     }
 
     private List<Book> generateBookList() {
