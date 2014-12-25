@@ -47,16 +47,20 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSelectMenuOptionInvalidOption() {
+        displayMainMenu(expectedOutput);
         displayInvalidOptionMessage(expectedOutput);
-        app.selectMenuOption(-1);
+        input = initSystemInStream("-1\nquit");
+        app.runMainMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSelectMenuOptionInvalidInput() {
+        displayMainMenu(expectedOutput);
         displayInvalidOptionMessage(expectedOutput);
-        app.selectMenuOption("Head First Into Totally Wrong Menu Options");
+        input = initSystemInStream("Java java java\nquit");
+        app.runMainMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
