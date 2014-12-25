@@ -54,6 +54,14 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void testSelectMenuOptionInvalidInput() {
+        displayInvalidOptionMessage(expectedOutput);
+        app.selectMenuOption("Head First Into Totally Wrong Menu Options");
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
+    @Test
     public void testSelectMenuOptionCheckoutBook() {
         displayCheckoutMenu(expectedOutput);
 
