@@ -17,9 +17,11 @@ public class BibliotecaAppTest {
     public void testBibliotecaStartup() {
         StringBuilder expectedOutput = new StringBuilder();
         displayStartupMessage(expectedOutput);
+        displayMainMenu(expectedOutput);
 
         ByteArrayOutputStream output = initSystemOutStream();
-        BibliotecaApp.displayStartup();
+        InputStream input = initSystemInStream("quit");
+        BibliotecaApp.main(new String[]{});
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
@@ -30,7 +32,7 @@ public class BibliotecaAppTest {
         displayBookList(expectedOutput);
 
         ByteArrayOutputStream output = initSystemOutStream();
-        BibliotecaApp.selectMenuOption(1);
+        BibliotecaApp.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
@@ -49,13 +51,13 @@ public class BibliotecaAppTest {
     @Test
     public void testSelectMenuOptionsUntilQuit() {
         StringBuilder expectedOutput = new StringBuilder();
-        displayStartupMessage(expectedOutput);
+        displayMainMenu(expectedOutput);
         displayInvalidOptionMessage(expectedOutput);
-        displayBookList(expectedOutput);
+        displayInvalidOptionMessage(expectedOutput);
 
         ByteArrayOutputStream output = initSystemOutStream();
-        InputStream input = initSystemInStream("-1\n1\nquit");
-        BibliotecaApp.main(new String[]{});
+        InputStream input = initSystemInStream("-1\n-1\nquit");
+        BibliotecaApp.runMainMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
@@ -74,6 +76,9 @@ public class BibliotecaAppTest {
 
     private void displayStartupMessage(StringBuilder expectedOutput) {
         expectedOutput.append("Welcome to Biblioteca!\n");
+    }
+
+    private void displayMainMenu(StringBuilder expectedOutput) {
         expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
         expectedOutput.append("(1) List Books\n");
     }

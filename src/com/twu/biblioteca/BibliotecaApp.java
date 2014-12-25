@@ -11,6 +11,17 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         displayStartup();
+        runMainMenu();
+    }
+
+    public static void displayStartup() {
+        System.out.println("Welcome to Biblioteca!");
+    }
+
+
+    public static void runMainMenu() {
+        System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
+        System.out.println("(1) List Books");
 
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
@@ -18,12 +29,6 @@ public class BibliotecaApp {
             selectMenuOption(Integer.parseInt(userInput));
             userInput = console.nextLine();
         }
-    }
-
-    public static void displayStartup() {
-        System.out.println("Welcome to Biblioteca!");
-        System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
-        System.out.println("(1) List Books");
     }
 
     public static void selectMenuOption(int menuOption) {
