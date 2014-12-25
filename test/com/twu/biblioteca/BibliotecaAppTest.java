@@ -39,7 +39,7 @@ public class BibliotecaAppTest {
     @Test
     public void testSelectMenuOptionInvalidOption() {
         StringBuilder expectedOutput = new StringBuilder();
-        expectedOutput.append("Select a valid option!");
+        expectedOutput.append("Select a valid option!\n");
 
         ByteArrayOutputStream outContent = initSystemOutStream();
         BibliotecaApp.selectMenuOption(-1);

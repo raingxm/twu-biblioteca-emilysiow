@@ -23,6 +23,8 @@ public class BibliotecaApp {
     public static void selectMenuOption(int menuOption) {
         if(menuOption == 1) {
             printBookList();
+        } else {
+            System.out.println("Select a valid option!");
         }
     }
 
