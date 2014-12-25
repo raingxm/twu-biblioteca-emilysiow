@@ -27,6 +27,15 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), outContent.toString());
     }
 
+    @Test
+    public void testSelectMenuOptionListBooks() {
+        StringBuilder expectedOutput = new StringBuilder();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        BibliotecaApp.selectMenuOption(1);
+        assertEquals(expectedOutput.toString(), outContent.toString());
+    }
+
     private String printBookList() {
         List<Book> bookList = generateBookList();
         StringBuilder output = new StringBuilder();
