@@ -7,7 +7,7 @@ public class BibliotecaApp {
 
     public static int LIST_BOOKS = 1;
 
-    private static List<Book> bookList = initBookList();
+    private static List<Book> bookList;
 
     public static void main(String[] args) {
         displayStartup();
@@ -39,7 +39,19 @@ public class BibliotecaApp {
         }
     }
 
-    private static void printBookList() {
+    public static void checkoutBook(String bookTitle) {
+        Book book = null;
+        for (Book b : bookList) {
+            if (b.getTitle().equalsIgnoreCase(bookTitle)) {
+                book = b;
+            }
+        }
+        if (book != null) {
+            bookList.remove(book);
+        }
+    }
+
+    public static void printBookList() {
         System.out.println("Book List");
         System.out.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
         String leftAlignFormat = "%-42s | %-32s | %-4d\n";
@@ -48,13 +60,13 @@ public class BibliotecaApp {
         }
     }
 
-    private static List<Book> initBookList() {
-        List<Book> newBookList = new ArrayList<Book>();
-        newBookList.add(createNewBook("Test-Driven Development By Example", "Kent Beck", 2003));
-        newBookList.add(createNewBook("The Agile Samurai", "Jonathan Rasmusson", 2010));
-        newBookList.add(createNewBook("Head First Java", "Kathy Sierra & Bert Bates", 2005));
-        newBookList.add(createNewBook("Don't Make Me Think, Revisited", "Steve Krug", 2014));
-        return newBookList;
+    public static List<Book> initBookList() {
+        bookList = new ArrayList<Book>();
+        bookList.add(createNewBook("Test-Driven Development By Example", "Kent Beck", 2003));
+        bookList.add(createNewBook("The Agile Samurai", "Jonathan Rasmusson", 2010));
+        bookList.add(createNewBook("Head First Java", "Kathy Sierra & Bert Bates", 2005));
+        bookList.add(createNewBook("Don't Make Me Think, Revisited", "Steve Krug", 2014));
+        return bookList;
     }
 
     private static Book createNewBook(String title, String author, int yearPublished) {

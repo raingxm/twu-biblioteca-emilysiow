@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayOutputStream;
@@ -12,6 +13,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class BibliotecaAppTest {
+
+    @Before public void initialize() {
+        BibliotecaApp app = new BibliotecaApp();
+        app.initBookList();
+    }
 
     @Test
     public void testBibliotecaStartup() {
@@ -66,7 +72,7 @@ public class BibliotecaAppTest {
     public void testCheckoutBook() {
         List<Book> bookList = generateBookList();
         StringBuilder expectedOutput = new StringBuilder();
-        displayBookList(expectedOutput, generateBookList());
+        displayBookList(expectedOutput, bookList);
         bookList.remove(2);
         displayBookList(expectedOutput, bookList);
 
