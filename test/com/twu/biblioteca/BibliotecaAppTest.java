@@ -30,8 +30,8 @@ public class BibliotecaAppTest {
 
     @Test
     public void testBibliotecaStartup() {
-        displayStartupMessage(expectedOutput);
-        displayMainMenu(expectedOutput);
+        displayStartupMessage();
+        displayMainMenu();
 
         input = initSystemInStream("quit");
         app.main(new String[]{});
@@ -41,7 +41,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSelectMenuOptionListBooks() {
-        displayBookList(expectedOutput, generateBookList());
+        displayBookList(generateBookList());
 
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
@@ -50,8 +50,8 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSelectMenuOptionInvalidOption() {
-        displayMainMenu(expectedOutput);
-        displayInvalidOptionMessage(expectedOutput);
+        displayMainMenu();
+        displayInvalidOptionMessage();
         input = initSystemInStream("-1\nquit");
         app.runMainMenu();
 
@@ -60,8 +60,8 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSelectMenuOptionInvalidInput() {
-        displayMainMenu(expectedOutput);
-        displayInvalidOptionMessage(expectedOutput);
+        displayMainMenu();
+        displayInvalidOptionMessage();
         input = initSystemInStream("Java java java\nquit");
         app.runMainMenu();
 
@@ -70,8 +70,8 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSelectMenuOptionCheckoutBook() {
-        displayCheckoutMenu(expectedOutput);
-        displayUnsuccessfulCheckoutMessage(expectedOutput);
+        displayCheckoutMenu();
+        displayUnsuccessfulCheckoutMessage();
 
         input = initSystemInStream("\nquit");
         app.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
@@ -81,9 +81,9 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSelectMenuOptionsUntilQuit() {
-        displayMainMenu(expectedOutput);
-        displayInvalidOptionMessage(expectedOutput);
-        displayInvalidOptionMessage(expectedOutput);
+        displayMainMenu();
+        displayInvalidOptionMessage();
+        displayInvalidOptionMessage();
 
         input = initSystemInStream("-1\n-1\nquit");
         app.runMainMenu();
@@ -93,11 +93,11 @@ public class BibliotecaAppTest {
 
     @Test
     public void testSuccessfulCheckout() {
-        displayCheckoutMenu(expectedOutput);
+        displayCheckoutMenu();
         List<Book> bookList = generateBookList();
         Book bookToCheckout = bookList.remove(2);
-        displaySuccessfulCheckoutMessage(expectedOutput);
-        displayBookList(expectedOutput, bookList);
+        displaySuccessfulCheckoutMessage();
+        displayBookList(bookList);
 
         assertTrue(app.isBookAvailable(bookToCheckout.getTitle()));
 
@@ -111,8 +111,8 @@ public class BibliotecaAppTest {
 
     @Test
     public void testUnsuccessfulCheckout() {
-        displayCheckoutMenu(expectedOutput);
-        displayUnsuccessfulCheckoutMessage(expectedOutput);
+        displayCheckoutMenu();
+        displayUnsuccessfulCheckoutMessage();
 
         input = initSystemInStream("Head First C++");
         app.runCheckoutMenu();
@@ -126,20 +126,20 @@ public class BibliotecaAppTest {
         Book bookToReturn = bookList.remove(2);
 
         app.checkoutBook(bookToReturn.getTitle());
-        displaySuccessfulCheckoutMessage(expectedOutput);
+        displaySuccessfulCheckoutMessage();
 
         assertFalse(app.isBookAvailable(bookToReturn.getTitle()));
 
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
-        displayBookList(expectedOutput, bookList);
+        displayBookList(bookList);
 
         bookList.add(bookToReturn);
 
         input = initSystemInStream(bookToReturn.getTitle() + "\n");
         app.runReturnMenu();
-        displayReturnMenu(expectedOutput);
+        displayReturnMenu();
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
-        displayBookList(expectedOutput, bookList);
+        displayBookList(bookList);
 
 
         assertTrue(app.isBookAvailable(bookToReturn.getTitle()));
@@ -161,37 +161,37 @@ public class BibliotecaAppTest {
         return in;
     }
 
-    private void displayStartupMessage(StringBuilder expectedOutput) {
+    private void displayStartupMessage() {
         expectedOutput.append("Welcome to Biblioteca!\n");
     }
 
-    private void displaySuccessfulCheckoutMessage(StringBuilder expectedOutput) {
+    private void displaySuccessfulCheckoutMessage() {
         expectedOutput.append("Thank you! Enjoy the book\n");
     }
 
-    private void displayUnsuccessfulCheckoutMessage(StringBuilder expectedOutput) {
+    private void displayUnsuccessfulCheckoutMessage() {
         expectedOutput.append("That book is not available.\n");
     }
 
-    private void displayMainMenu(StringBuilder expectedOutput) {
+    private void displayMainMenu() {
         expectedOutput.append("Main Menu (please select one of the following options by typing its number and pressing ENTER)\n");
         expectedOutput.append("(1) List Books\n");
         expectedOutput.append("(2) Checkout Book\n");
     }
 
-    private void displayInvalidOptionMessage(StringBuilder expectedOutput) {
+    private void displayInvalidOptionMessage() {
         expectedOutput.append("Select a valid option!\n");
     }
 
-    private void displayCheckoutMenu(StringBuilder expectedOutput) {
+    private void displayCheckoutMenu() {
         expectedOutput.append("Enter the title of the book you wish to check out: \n");
     }
 
-    private void displayReturnMenu(StringBuilder expectedOutput) {
+    private void displayReturnMenu() {
         expectedOutput.append("Enter the title of the book you wish to return: \n");
     }
 
-    private void displayBookList(StringBuilder expectedOutput, List<Book> bookList) {
+    private void displayBookList(List<Book> bookList) {
         expectedOutput.append("Book List\n");
         expectedOutput.append(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
 
