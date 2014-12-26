@@ -40,7 +40,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testSelectMenuOptionListBooks() {
+    public void testMenuOptionListBooks() {
         displayBookList(generateBookList());
 
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
@@ -49,7 +49,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testSelectMenuOptionInvalidOption() {
+    public void testMenuOptionInvalidOption() {
         displayMainMenu();
         displayInvalidOptionMessage();
         input = initSystemInStream("-1\nquit");
@@ -59,7 +59,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testSelectMenuOptionInvalidInput() {
+    public void testMenuOptionInvalidInput() {
         displayMainMenu();
         displayInvalidOptionMessage();
         input = initSystemInStream("Java java java\nquit");
@@ -69,7 +69,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testSelectMenuOptionCheckoutBook() {
+    public void testMenuOptionCheckoutBook() {
         displayCheckoutMenu();
         displayUnsuccessfulCheckoutMessage();
 
@@ -80,7 +80,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testSelectMenuOptionsUntilQuit() {
+    public void testMenuOptionsUntilQuit() {
         displayMainMenu();
         displayInvalidOptionMessage();
         displayInvalidOptionMessage();
