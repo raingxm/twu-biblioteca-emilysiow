@@ -42,9 +42,9 @@ public class BibliotecaApp {
     public static void selectMenuOption(int menuOption) {
         if(menuOption == LIST_BOOKS) {
             printBookList();
-        } else if(menuOption >= CHECKOUT_BOOK) {
+        } else if(menuOption == CHECKOUT_BOOK) {
             runCheckoutMenu();
-        } else if(menuOption >= RETURN_BOOK) {
+        } else if(menuOption == RETURN_BOOK) {
             runReturnMenu();
         } else {
             System.out.println("Select a valid option!");
@@ -82,6 +82,8 @@ public class BibliotecaApp {
             availableBooks.add(book);
             checkedOutBooks.remove(book);
             System.out.println("Thank you for returning the book.");
+        } else {
+            System.out.println("That is not a valid book to return.");
         }
     }
 
