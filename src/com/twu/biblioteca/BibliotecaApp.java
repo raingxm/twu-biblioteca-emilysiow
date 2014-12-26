@@ -81,6 +81,7 @@ public class BibliotecaApp {
         if (book != null) {
             availableBooks.add(book);
             checkedOutBooks.remove(book);
+            System.out.println("Thank you for returning the book.");
         }
     }
 
