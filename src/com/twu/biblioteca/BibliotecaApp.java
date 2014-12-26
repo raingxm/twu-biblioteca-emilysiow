@@ -5,8 +5,9 @@ import java.util.Scanner;
 
 public class BibliotecaApp {
 
-    public static int LIST_BOOKS = 1;
-    public static int CHECKOUT_BOOK = 2;
+    public static final int LIST_BOOKS = 1;
+    public static final int CHECKOUT_BOOK = 2;
+    public static final int RETURN_BOOK = 3;
 
     private static List<Book> availableBooks;
     private static List<Book> checkedOutBooks;
@@ -20,7 +21,6 @@ public class BibliotecaApp {
     public static void displayStartup() {
         System.out.println("Welcome to Biblioteca!");
     }
-
 
     public static void runMainMenu() {
         System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
@@ -42,8 +42,10 @@ public class BibliotecaApp {
     public static void selectMenuOption(int menuOption) {
         if(menuOption == LIST_BOOKS) {
             printBookList();
-        } else if(menuOption == CHECKOUT_BOOK) {
+        } else if(menuOption >= CHECKOUT_BOOK) {
             runCheckoutMenu();
+        } else if(menuOption >= RETURN_BOOK) {
+            runReturnMenu();
         } else {
             System.out.println("Select a valid option!");
         }
@@ -95,7 +97,6 @@ public class BibliotecaApp {
     public static boolean isBookAvailable(String bookTitle) {
         return (findBook(availableBooks, bookTitle) != null);
     }
-
 
     public static void printBookList() {
         System.out.println("Book List");

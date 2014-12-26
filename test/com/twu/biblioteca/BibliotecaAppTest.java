@@ -78,7 +78,6 @@ public class BibliotecaAppTest {
         displayCheckoutMenu();
         displayUnsuccessfulCheckoutMessage();
 
-
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
@@ -149,7 +148,7 @@ public class BibliotecaAppTest {
         assertTrue(app.isBookAvailable(bookToReturn.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
     }
-    
+
     // helpers
 
     private ByteArrayOutputStream initSystemOutStream() {
