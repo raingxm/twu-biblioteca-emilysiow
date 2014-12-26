@@ -82,6 +82,17 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void testMenuOptionReturnBook() {
+        input = initSystemInStream("\nquit");
+        app.selectMenuOption(BibliotecaApp.RETURN_BOOK);
+
+        displayReturnMenu();
+        displayUnsuccessfulReturnMessage();
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
+    @Test
     public void testMenuOptionsUntilQuit() {
         input = initSystemInStream("-1\n-1\nquit");
         app.runMainMenu();
@@ -150,6 +161,16 @@ public class BibliotecaAppTest {
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
+    @Test
+    public void testUnsuccessfulReturn() {
+        input = initSystemInStream("Head First C++\n");
+        app.runReturnMenu();
+        displayReturnMenu();
+        displayUnsuccessfulReturnMessage();
+
+        assertEquals(expectedOutput.toString(), output.toString());
+    }
+
     // helpers
 
     private ByteArrayOutputStream initSystemOutStream() {
@@ -178,6 +199,10 @@ public class BibliotecaAppTest {
 
     private void displayUnsuccessfulCheckoutMessage() {
         expectedOutput.append("That book is not available.\n");
+    }
+
+    private void displayUnsuccessfulReturnMessage() {
+        expectedOutput.append("That is not a valid book to return.\n");
     }
 
     private void displayMainMenu() {
