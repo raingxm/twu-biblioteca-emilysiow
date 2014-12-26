@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -104,7 +105,7 @@ public class BibliotecaAppTest {
         app.runCheckoutMenu();
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
 
-        assertTrue(!app.isBookAvailable(bookToCheckout.getTitle()));
+        assertFalse(app.isBookAvailable(bookToCheckout.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
@@ -122,16 +123,26 @@ public class BibliotecaAppTest {
     @Test
     public void testReturnBook() {
         List<Book> bookList = generateBookList();
-        displayBookList(expectedOutput, bookList);
         Book bookToReturn = bookList.remove(2);
 
         app.checkoutBook(bookToReturn.getTitle());
-        assertTrue(!app.isBookAvailable(bookToReturn.getTitle()));
+        displaySuccessfulCheckoutMessage(expectedOutput);
+
+        assertFalse(app.isBookAvailable(bookToReturn.getTitle()));
+
+        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
+        displayBookList(expectedOutput, bookList);
+
+        bookList.add(bookToReturn);
 
         input = initSystemInStream(bookToReturn.getTitle() + "\n");
         app.runReturnMenu();
+        displayReturnMenu(expectedOutput);
+        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
+        displayBookList(expectedOutput, bookList);
 
-        assertTrue(app.isBookAvailable(bookToCheckout.getTitle()));
+
+        assertTrue(app.isBookAvailable(bookToReturn.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
@@ -174,6 +185,10 @@ public class BibliotecaAppTest {
 
     private void displayCheckoutMenu(StringBuilder expectedOutput) {
         expectedOutput.append("Enter the title of the book you wish to check out: \n");
+    }
+
+    private void displayReturnMenu(StringBuilder expectedOutput) {
+        expectedOutput.append("Enter the title of the book you wish to return: \n");
     }
 
     private void displayBookList(StringBuilder expectedOutput, List<Book> bookList) {

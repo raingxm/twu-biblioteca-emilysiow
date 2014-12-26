@@ -8,9 +8,11 @@ public class BibliotecaApp {
     public static int LIST_BOOKS = 1;
     public static int CHECKOUT_BOOK = 2;
 
-    private static List<Book> bookList = initBookList();
+    private static List<Book> availableBooks;
+    private static List<Book> checkedOutBooks;
 
     public static void main(String[] args) {
+        initBookList();
         displayStartup();
         runMainMenu();
     }
@@ -51,42 +53,66 @@ public class BibliotecaApp {
         System.out.println("Enter the title of the book you wish to check out: ");
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
-        if (!userInput.equalsIgnoreCase("quit")) {
-            checkoutBook(userInput);
-        }
+        checkoutBook(userInput);
+    }
+
+    public static void runReturnMenu() {
+        System.out.println("Enter the title of the book you wish to return: ");
+        Scanner console = new Scanner(System.in);
+        String userInput = console.nextLine();
+        returnBook(userInput);
     }
 
     public static void checkoutBook(String bookTitle) {
-        Book book = null;
-        for (Book b : bookList) {
-            if (b.getTitle().equalsIgnoreCase(bookTitle)) {
-                book = b;
-            }
-        }
+        Book book = findBook(availableBooks, bookTitle);
         if (book != null) {
-            bookList.remove(book);
+            availableBooks.remove(book);
+            checkedOutBooks.add(book);
             System.out.println("Thank you! Enjoy the book");
         } else {
             System.out.println("That book is not available.");
         }
     }
 
+    public static void returnBook(String bookTitle) {
+        Book book = findBook(checkedOutBooks, bookTitle);
+        if (book != null) {
+            availableBooks.add(book);
+            checkedOutBooks.remove(book);
+        }
+    }
+
+    private static Book findBook(List<Book> bookList, String bookTitle) {
+        Book book = null;
+        for (Book b : bookList) {
+            if (b.getTitle().equalsIgnoreCase(bookTitle)) {
+                book = b;
+            }
+        }
+        return book;
+    }
+
+    public static boolean isBookAvailable(String bookTitle) {
+        return (findBook(availableBooks, bookTitle) != null);
+    }
+
+
     public static void printBookList() {
         System.out.println("Book List");
         System.out.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
         String leftAlignFormat = "%-42s | %-32s | %-4d\n";
-        for (Book book : bookList) {
+        for (Book book : availableBooks) {
             System.out.print(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
         }
     }
 
-    public static List<Book> initBookList() {
-        bookList = new ArrayList<Book>();
-        bookList.add(createNewBook("Test-Driven Development By Example", "Kent Beck", 2003));
-        bookList.add(createNewBook("The Agile Samurai", "Jonathan Rasmusson", 2010));
-        bookList.add(createNewBook("Head First Java", "Kathy Sierra & Bert Bates", 2005));
-        bookList.add(createNewBook("Don't Make Me Think, Revisited", "Steve Krug", 2014));
-        return bookList;
+    public static void initBookList() {
+        checkedOutBooks = new ArrayList<Book>();
+        availableBooks = new ArrayList<Book>();
+        availableBooks.add(createNewBook("Test-Driven Development By Example", "Kent Beck", 2003));
+        availableBooks.add(createNewBook("The Agile Samurai", "Jonathan Rasmusson", 2010));
+        availableBooks.add(createNewBook("Head First Java", "Kathy Sierra & Bert Bates", 2005));
+        availableBooks.add(createNewBook("Don't Make Me Think, Revisited", "Steve Krug", 2014));
     }
 
     private static Book createNewBook(String title, String author, int yearPublished) {
