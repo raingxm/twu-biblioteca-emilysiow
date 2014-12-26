@@ -126,7 +126,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testReturnBook() {
+    public void testSuccessfulReturn() {
         List<Book> bookList = generateBookList();
         Book bookToReturn = bookList.remove(2);
 
@@ -141,6 +141,7 @@ public class BibliotecaAppTest {
         app.runReturnMenu();
         bookList.add(bookToReturn);
         displayReturnMenu();
+        displaySuccessfulReturnMessage();
 
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
         displayBookList(bookList);
@@ -169,6 +170,10 @@ public class BibliotecaAppTest {
 
     private void displaySuccessfulCheckoutMessage() {
         expectedOutput.append("Thank you! Enjoy the book\n");
+    }
+
+    private void displaySuccessfulReturnMessage() {
+        expectedOutput.append("Thank you for returning the book.\n");
     }
 
     private void displayUnsuccessfulCheckoutMessage() {
