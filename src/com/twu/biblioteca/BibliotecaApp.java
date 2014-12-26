@@ -18,11 +18,11 @@ public class BibliotecaApp {
         runMainMenu();
     }
 
-    public static void displayStartup() {
+    static void displayStartup() {
         System.out.println("Welcome to Biblioteca!");
     }
 
-    public static void runMainMenu() {
+    static void runMainMenu() {
         System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
         System.out.println("(1) List Books");
         System.out.println("(2) Checkout Book");
@@ -39,7 +39,7 @@ public class BibliotecaApp {
         }
     }
 
-    public static void selectMenuOption(int menuOption) {
+    static void selectMenuOption(int menuOption) {
         if(menuOption == LIST_BOOKS) {
             printBookList();
         } else if(menuOption == CHECKOUT_BOOK) {
@@ -51,21 +51,21 @@ public class BibliotecaApp {
         }
     }
 
-    public static void runCheckoutMenu() {
+    static void runCheckoutMenu() {
         System.out.println("Enter the title of the book you wish to check out: ");
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
         checkoutBook(userInput);
     }
 
-    public static void runReturnMenu() {
+    static void runReturnMenu() {
         System.out.println("Enter the title of the book you wish to return: ");
         Scanner console = new Scanner(System.in);
         String userInput = console.nextLine();
         returnBook(userInput);
     }
 
-    public static void checkoutBook(String bookTitle) {
+    static void checkoutBook(String bookTitle) {
         Book book = findBook(availableBooks, bookTitle);
         if (book != null) {
             availableBooks.remove(book);
@@ -76,7 +76,7 @@ public class BibliotecaApp {
         }
     }
 
-    public static void returnBook(String bookTitle) {
+    static void returnBook(String bookTitle) {
         Book book = findBook(checkedOutBooks, bookTitle);
         if (book != null) {
             availableBooks.add(book);
@@ -87,7 +87,7 @@ public class BibliotecaApp {
         }
     }
 
-    private static Book findBook(List<Book> bookList, String bookTitle) {
+    static Book findBook(List<Book> bookList, String bookTitle) {
         Book book = null;
         for (Book b : bookList) {
             if (b.getTitle().equalsIgnoreCase(bookTitle)) {
@@ -97,11 +97,11 @@ public class BibliotecaApp {
         return book;
     }
 
-    public static boolean isBookAvailable(String bookTitle) {
+    static boolean isBookAvailable(String bookTitle) {
         return (findBook(availableBooks, bookTitle) != null);
     }
 
-    public static void printBookList() {
+    static void printBookList() {
         System.out.println("Book List");
         System.out.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
         String leftAlignFormat = "%-42s | %-32s | %-4d\n";
@@ -110,7 +110,7 @@ public class BibliotecaApp {
         }
     }
 
-    public static void initBookList() {
+    static void initBookList() {
         checkedOutBooks = new ArrayList<Book>();
         availableBooks = new ArrayList<Book>();
         availableBooks.add(createNewBook("Test-Driven Development By Example", "Kent Beck", 2003));
@@ -119,11 +119,11 @@ public class BibliotecaApp {
         availableBooks.add(createNewBook("Don't Make Me Think, Revisited", "Steve Krug", 2014));
     }
 
-    private static Book createNewBook(String title, String author, int yearPublished) {
+    static Book createNewBook(String title, String author, int yearPublished) {
         return new Book(title, author, yearPublished);
     }
 
-    private static boolean isInteger(String input) {
+    static boolean isInteger(String input) {
         try {
             Integer.parseInt(input);
             return true;
