@@ -30,80 +30,86 @@ public class BibliotecaAppTest {
 
     @Test
     public void testBibliotecaStartup() {
-        displayStartupMessage();
-        displayMainMenu();
-
         input = initSystemInStream("quit");
         app.main(new String[]{});
+
+        displayStartupMessage();
+        displayMainMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testMenuOptionListBooks() {
-        displayBookList(generateBookList());
-
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
+
+        displayBookList(generateBookList());
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testMenuOptionInvalidOption() {
-        displayMainMenu();
-        displayInvalidOptionMessage();
         input = initSystemInStream("-1\nquit");
         app.runMainMenu();
+
+        displayMainMenu();
+        displayInvalidOptionMessage();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testMenuOptionInvalidInput() {
-        displayMainMenu();
-        displayInvalidOptionMessage();
         input = initSystemInStream("Java java java\nquit");
         app.runMainMenu();
+
+        displayMainMenu();
+        displayInvalidOptionMessage();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testMenuOptionCheckoutBook() {
+        input = initSystemInStream("\nquit");
+        app.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
+
         displayCheckoutMenu();
         displayUnsuccessfulCheckoutMessage();
 
-        input = initSystemInStream("\nquit");
-        app.selectMenuOption(BibliotecaApp.CHECKOUT_BOOK);
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testMenuOptionsUntilQuit() {
+        input = initSystemInStream("-1\n-1\nquit");
+        app.runMainMenu();
+
         displayMainMenu();
         displayInvalidOptionMessage();
         displayInvalidOptionMessage();
-
-        input = initSystemInStream("-1\n-1\nquit");
-        app.runMainMenu();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
     @Test
     public void testSuccessfulCheckout() {
-        displayCheckoutMenu();
         List<Book> bookList = generateBookList();
         Book bookToCheckout = bookList.remove(2);
-        displaySuccessfulCheckoutMessage();
-        displayBookList(bookList);
 
         assertTrue(app.isBookAvailable(bookToCheckout.getTitle()));
 
         input = initSystemInStream(bookToCheckout.getTitle() + "\n");
         app.runCheckoutMenu();
+
+        displayCheckoutMenu();
+        displaySuccessfulCheckoutMessage();
+
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
+
+        displayBookList(bookList);
 
         assertFalse(app.isBookAvailable(bookToCheckout.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
@@ -111,11 +117,11 @@ public class BibliotecaAppTest {
 
     @Test
     public void testUnsuccessfulCheckout() {
-        displayCheckoutMenu();
-        displayUnsuccessfulCheckoutMessage();
-
         input = initSystemInStream("Head First C++");
         app.runCheckoutMenu();
+
+        displayCheckoutMenu();
+        displayUnsuccessfulCheckoutMessage();
 
         assertEquals(expectedOutput.toString(), output.toString());
     }
@@ -126,27 +132,24 @@ public class BibliotecaAppTest {
         Book bookToReturn = bookList.remove(2);
 
         app.checkoutBook(bookToReturn.getTitle());
-        displaySuccessfulCheckoutMessage();
-
         assertFalse(app.isBookAvailable(bookToReturn.getTitle()));
+        displaySuccessfulCheckoutMessage();
 
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
         displayBookList(bookList);
-
-        bookList.add(bookToReturn);
 
         input = initSystemInStream(bookToReturn.getTitle() + "\n");
         app.runReturnMenu();
+        bookList.add(bookToReturn);
         displayReturnMenu();
+
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
         displayBookList(bookList);
-
 
         assertTrue(app.isBookAvailable(bookToReturn.getTitle()));
         assertEquals(expectedOutput.toString(), output.toString());
     }
-
-
+    
     // helpers
 
     private ByteArrayOutputStream initSystemOutStream() {
