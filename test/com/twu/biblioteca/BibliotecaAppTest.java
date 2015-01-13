@@ -22,8 +22,7 @@ public class BibliotecaAppTest {
     private BibliotecaApp app;
 
     @Before public void initialize() {
-        app = new BibliotecaApp();
-        app.initBookList();
+        app = new BibliotecaApp(BibliotecaAppTester.initBookList());
         expectedOutput = new StringBuilder();
         output = initSystemOutStream();
     }
@@ -31,7 +30,7 @@ public class BibliotecaAppTest {
     @Test
     public void testBibliotecaStartup() {
         input = initSystemInStream("quit");
-        app.main(new String[]{});
+        app.run();
 
         displayStartupMessage();
         displayMainMenu();
