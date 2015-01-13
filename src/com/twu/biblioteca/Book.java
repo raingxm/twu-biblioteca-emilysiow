@@ -5,9 +5,9 @@ package com.twu.biblioteca;
  */
 public class Book {
 
-    private String title;
-    private String author;
-    private int yearPublished;
+    public String title;
+    public String author;
+    public int yearPublished;
 
     public Book(String title, String author, int yearPublished) {
         this.title = title;
@@ -15,17 +15,17 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
-    public String getTitle() {
-        return this.title;
-    }
+//    public String getTitle() {
+//        return this.title;
+//    }
 
-    public String getAuthor() {
-        return this.author;
-    }
-
-    public int getYearPublished() {
-        return this.yearPublished;
-    }
+//    public String getAuthor() {
+//        return this.author;
+//    }
+//
+//    public int getYearPublished() {
+//        return this.yearPublished;
+//    }
 
     @Override
     public String toString() {

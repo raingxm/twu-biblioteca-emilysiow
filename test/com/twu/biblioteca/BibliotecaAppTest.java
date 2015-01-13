@@ -109,9 +109,9 @@ public class BibliotecaAppTest {
         List<Book> bookList = generateBookList();
         Book bookToCheckout = bookList.remove(2);
 
-        assertTrue(app.isBookAvailable(bookToCheckout.getTitle()));
+        assertTrue(app.isBookAvailable(bookToCheckout.title));
 
-        input = initSystemInStream(bookToCheckout.getTitle() + "\n");
+        input = initSystemInStream(bookToCheckout.title + "\n");
         app.runCheckoutMenu();
 
         displayCheckoutMenu();
@@ -121,7 +121,7 @@ public class BibliotecaAppTest {
 
         displayBookList(bookList);
 
-        assertFalse(app.isBookAvailable(bookToCheckout.getTitle()));
+        assertFalse(app.isBookAvailable(bookToCheckout.title));
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
@@ -141,14 +141,14 @@ public class BibliotecaAppTest {
         List<Book> bookList = generateBookList();
         Book bookToReturn = bookList.remove(2);
 
-        app.checkoutBook(bookToReturn.getTitle());
-        assertFalse(app.isBookAvailable(bookToReturn.getTitle()));
+        app.checkoutBook(bookToReturn.title);
+        assertFalse(app.isBookAvailable(bookToReturn.title));
         displaySuccessfulCheckoutMessage();
 
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
         displayBookList(bookList);
 
-        input = initSystemInStream(bookToReturn.getTitle() + "\n");
+        input = initSystemInStream(bookToReturn.title + "\n");
         app.runReturnMenu();
         bookList.add(bookToReturn);
         displayReturnMenu();
@@ -157,7 +157,7 @@ public class BibliotecaAppTest {
         app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
         displayBookList(bookList);
 
-        assertTrue(app.isBookAvailable(bookToReturn.getTitle()));
+        assertTrue(app.isBookAvailable(bookToReturn.title));
         assertEquals(expectedOutput.toString(), output.toString());
     }
 
@@ -229,7 +229,7 @@ public class BibliotecaAppTest {
 
         String leftAlignFormat = "%-42s | %-32s | %-4d\n";
         for (Book book : bookList) {
-            expectedOutput.append(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
+            expectedOutput.append(String.format(leftAlignFormat, book.title, book.author, book.yearPublished));
         }
     }
 

@@ -91,7 +91,7 @@ public class BibliotecaApp {
     static Book findBook(List<Book> bookList, String bookTitle) {
         Book book = null;
         for (Book b : bookList) {
-            if (b.getTitle().equalsIgnoreCase(bookTitle)) {
+            if (b.title.equalsIgnoreCase(bookTitle)) {
                 book = b;
             }
         }
@@ -107,7 +107,7 @@ public class BibliotecaApp {
         System.out.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
         String leftAlignFormat = "%-42s | %-32s | %-4d\n";
         for (Book book : availableBooks) {
-            System.out.print(String.format(leftAlignFormat, book.getTitle(), book.getAuthor(), book.getYearPublished()));
+            System.out.print(String.format(leftAlignFormat, book.title, book.author, book.yearPublished));
         }
     }
 
