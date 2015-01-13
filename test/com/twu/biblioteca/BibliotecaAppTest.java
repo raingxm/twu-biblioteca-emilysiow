@@ -186,7 +186,7 @@ public class BibliotecaAppTest {
     }
 
     private void displayStartupMessage() {
-        expectedOutput.append("Welcome to Biblioteca!\n");
+        expectedOutput.append(BibliotecaApp.WELCOME_MESSAGE + "\n");
     }
 
     private void displaySuccessfulCheckoutMessage() {

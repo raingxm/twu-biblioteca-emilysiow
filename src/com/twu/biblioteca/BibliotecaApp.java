@@ -8,6 +8,7 @@ public class BibliotecaApp {
     public static final int LIST_BOOKS = 1;
     public static final int CHECKOUT_BOOK = 2;
     public static final int RETURN_BOOK = 3;
+    public static final String WELCOME_MESSAGE = "Welcome to Biblioteca!";
 
     private static List<Book> availableBooks;
     private static List<Book> checkedOutBooks;
@@ -19,7 +20,7 @@ public class BibliotecaApp {
     }
 
     static void displayStartup() {
-        System.out.println("Welcome to Biblioteca!");
+        System.out.println(WELCOME_MESSAGE);
     }
 
     static void runMainMenu() {
