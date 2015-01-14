@@ -3,7 +3,7 @@ package com.twu.biblioteca;
 /**
  * Created by emilys on 25/12/2014.
  */
-public class Book {
+public class Book implements Item {
 
     public String title;
     public String author;
@@ -15,17 +15,14 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
-//    public String getTitle() {
-//        return this.title;
-//    }
+    public boolean matches(String title) {
+        return this.title.equalsIgnoreCase(title);
+    }
 
-//    public String getAuthor() {
-//        return this.author;
-//    }
-//
-//    public int getYearPublished() {
-//        return this.yearPublished;
-//    }
+    public String printString() {
+        String leftAlignFormat = "%-42s | %-32s | %-4d\n";
+        return String.format(leftAlignFormat, title, author, yearPublished);
+    }
 
     @Override
     public String toString() {
