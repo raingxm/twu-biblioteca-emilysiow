@@ -15,20 +15,21 @@ public class BibliotecaApp {
     public static final List<String> MAIN_MENU_OPTIONS =
             Lists.newArrayList("List Books", "Checkout Book", "Return Book");
     public static final String BOOK = "Book";
-    public static final int LIST_BOOKS = 1;
-    public static final int CHECKOUT_BOOK = 2;
-    public static final int RETURN_BOOK = 3;
+    public static final int LIST_BOOKS      = 1;
+    public static final int CHECKOUT_BOOK   = 2;
+    public static final int RETURN_BOOK     = 3;
     public static final String DIVIDER = Strings.repeat("-", 100);
     public static final String BOOK_HEADER = String.format("%-42s | %-32s | %-12s", "Title", "Author", "Year Published");
+    public static final String EXIT_CODE = "quit";
 
-    private Catalogue<Book> bookLibrary;
+    private Catalogue<Book> bookCatalogue;
     private InputHandler input;
     private OutputHandler output;
 
     public BibliotecaApp(InputHandler input, OutputHandler output, Collection<Book> bookList) {
         this.input = input;
         this.output = output;
-        this.bookLibrary = new Catalogue<Book>(bookList);
+        this.bookCatalogue = new Catalogue<Book>(bookList);
     }
 
     public void run() {
@@ -47,7 +48,7 @@ public class BibliotecaApp {
         }
 
         String userInput = input.nextLine();
-        while (!userInput.equalsIgnoreCase("quit")) {
+        while (!userInput.equalsIgnoreCase(EXIT_CODE)) {
             if(isInteger(userInput)) {
                 selectMenuOption(Integer.parseInt(userInput));
             } else {
@@ -76,7 +77,6 @@ public class BibliotecaApp {
         checkoutItem(userInput, type);
     }
 
-
     void runReturnMenu(String type) {
         output.print(String.format("Enter the title of the %s you wish to return: ", type.toLowerCase()));
         
@@ -88,7 +88,7 @@ public class BibliotecaApp {
         boolean checkoutSuccess = false;
 
         if (type.matches(BOOK)) {
-            checkoutSuccess = bookLibrary.checkoutItem(title);
+            checkoutSuccess = bookCatalogue.checkoutItem(title);
         }
 
         if (checkoutSuccess) {
@@ -102,7 +102,7 @@ public class BibliotecaApp {
         boolean returnSuccess = false;
 
         if (type.equalsIgnoreCase(BOOK)) {
-            returnSuccess = bookLibrary.returnItem(title);
+            returnSuccess = bookCatalogue.returnItem(title);
         }
 
         if (returnSuccess) {
@@ -117,7 +117,7 @@ public class BibliotecaApp {
         if(type.matches(BOOK)) {
             output.println(BOOK_HEADER);
             output.println(DIVIDER);
-            bookLibrary.printListing(output);
+            bookCatalogue.printListing(output);
         }
     }
 

@@ -15,7 +15,7 @@ public class Catalogue<T extends Item> {
         this.checkedOut = new ArrayList<T>();
     }
 
-    boolean checkoutItem(String title) {
+    public boolean checkoutItem(String title) {
         T item = findTitle(available, title);
         if (item != null) {
             available.remove(item);
@@ -25,7 +25,7 @@ public class Catalogue<T extends Item> {
         return false;
     }
 
-    boolean returnItem(String title) {
+    public boolean returnItem(String title) {
         T item = findTitle(checkedOut, title);
         if (item != null) {
             available.add(item);
@@ -35,19 +35,11 @@ public class Catalogue<T extends Item> {
         return false;
     }
 
-    public void remove(T item) {
-        this.available.remove(item);
-    }
-
-    public void add(T item) {
-        this.available.add(item);
-    }
-
-    public boolean isAvailable(String title) {
+    boolean isAvailable(String title) {
         return (findTitle(available,title) != null);
     }
 
-    public T findTitle(Collection<T> listing, String title) {
+    T findTitle(Collection<T> listing, String title) {
         T item = null;
         for (T t : listing) {
             if (t.matches(title)) {
