@@ -13,7 +13,7 @@ public class BibliotecaApp {
     public static final String MAIN_MENU_MSG =
             "Main Menu (please select one of the following options by typing its number and pressing ENTER)";
     public static final List<String> MAIN_MENU_OPTIONS =
-            Lists.newArrayList("List Books", "Checkout Book", "Return Book");
+            Lists.newArrayList("List Books", "Checkout Book", "Return Book", "List Movies", "Checkout Movie");
     public static final String BOOK = "Book";
     public static final String MOVIE = "Movie";
 
