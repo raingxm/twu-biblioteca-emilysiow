@@ -6,5 +6,4 @@ package com.twu.biblioteca;
 public interface InputHandler {
 
     public String nextLine();
-
 }

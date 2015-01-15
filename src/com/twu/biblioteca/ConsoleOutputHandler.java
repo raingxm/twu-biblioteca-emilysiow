@@ -3,7 +3,7 @@ package com.twu.biblioteca;
 /**
  * Created by esiow on 15/01/2015.
  */
-public class ConsoleOutput implements OutputHandler {
+public class ConsoleOutputHandler implements OutputHandler {
 
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 public class BibliotecaAppTester {
 
     public static void main(String[] args) {
-        BibliotecaApp app = new BibliotecaApp(new ConsoleInput(), new ConsoleOutput(), initBookList());
+        BibliotecaApp app = new BibliotecaApp(new ConsoleInputHandler(), new ConsoleOutputHandler(), initBookList());
         app.run();
     }
 

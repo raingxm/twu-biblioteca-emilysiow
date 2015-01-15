@@ -1,16 +1,25 @@
 package com.twu.biblioteca;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 import java.util.Collection;
+import java.util.List;
 
 public class BibliotecaApp {
 
+
+    public static final String WELCOME_MESSAGE = "Welcome to Biblioteca!";
+    public static final String MENU_ERROR_MESSAGE = "Select a valid option!";
+    public static final String MAIN_MENU_MESSAGE =
+            "Main Menu (please select one of the following options by typing its number and pressing ENTER)";
+    public static final List<String> MAIN_MENU_OPTIONS =
+            Lists.newArrayList("List Books", "Checkout Book", "Return Book");
     public static final String BOOK = "Book";
     public static final int LIST_BOOKS = 1;
     public static final int CHECKOUT_BOOK = 2;
     public static final int RETURN_BOOK = 3;
-    public static final int LIST_MOVIES = 4;
-    public static final int CHECKOUT_MOVIE = 5;
-    public static final int RETURN_MOVIE = 6;
-    public static final String WELCOME_MESSAGE = "Welcome to Biblioteca!";
+    public static final String DIVIDER = Strings.repeat("-", 100);
+    public static final String BOOK_HEADER = String.format("%-42s | %-32s | %-12s", "Title", "Author", "Year Published");
 
     private Catalogue<Book> bookLibrary;
     private InputHandler input;
@@ -32,20 +41,17 @@ public class BibliotecaApp {
     }
 
     void runMainMenu() {
-        output.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
-        output.println("(1) List Books");
-        output.println("(2) Checkout Book");
-        output.println("(3) Return Book");
-//        output.println("(4) List Movies");
-//        output.println("(5) Checkout Movie");
-//        output.println("(6) Return Movie");
-        
+        output.println(MAIN_MENU_MESSAGE);
+        for(int i=0; i < MAIN_MENU_OPTIONS.size(); i++) {
+            output.println(String.format("(%d) %s", i+1, MAIN_MENU_OPTIONS.get(i)));
+        }
+
         String userInput = input.nextLine();
         while (!userInput.equalsIgnoreCase("quit")) {
             if(isInteger(userInput)) {
                 selectMenuOption(Integer.parseInt(userInput));
             } else {
-                output.println("Select a valid option!");
+                output.println(MENU_ERROR_MESSAGE);
             }
             userInput = input.nextLine();
         }
@@ -59,7 +65,7 @@ public class BibliotecaApp {
         } else if(menuOption == RETURN_BOOK) {
             runReturnMenu(BOOK);
         } else {
-            output.println("Select a valid option!");
+            output.println(MENU_ERROR_MESSAGE);
         }
     }
 
@@ -109,7 +115,8 @@ public class BibliotecaApp {
     void printListing(String type) {
         output.println(String.format("%s List", type));
         if(type.matches(BOOK)) {
-            output.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
+            output.println(BOOK_HEADER);
+            output.println(DIVIDER);
             bookLibrary.printListing(output);
         }
     }

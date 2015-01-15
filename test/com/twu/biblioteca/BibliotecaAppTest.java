@@ -15,29 +15,23 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class BibliotecaAppTest {
-
-    private StringBuilder expectedOutput;
-    private ByteArrayOutputStream output;
-    private InputStream input;
+    private TestInputHandler input = new TestInputHandler();
+    private TestOutputHandler output = new TestOutputHandler();
     private BibliotecaApp app;
 
-//    @Before public void initialize() {
-//        app = new BibliotecaApp(BibliotecaAppTester.initBookList());
-//        expectedOutput = new StringBuilder();
-//        output = initSystemOutStream();
-//    }
-//
-//    @Test
-//    public void testBibliotecaStartup() {
-//        input = initSystemInStream("quit");
-//        app.run();
-//
-//        displayStartupMessage();
-//        displayMainMenu();
-//
-//        assertEquals(expectedOutput.toString(), output.toString());
-//    }
-//
+    @Before
+    public void initialize() {
+        app = new BibliotecaApp(input, output, BibliotecaAppTester.initBookList());
+    }
+
+    @Test
+    public void testBibliotecaStartup() {
+        input.add("quit");
+        app.run();
+
+//        assertTrue(output.outputReceived(message));
+    }
+
 //    @Test
 //    public void testMenuOptionListBooks() {
 //        app.selectMenuOption(BibliotecaApp.LIST_BOOKS);
