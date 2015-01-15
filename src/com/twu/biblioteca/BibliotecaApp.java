@@ -80,6 +80,8 @@ public class BibliotecaApp {
             runReturnMenu(BOOK);
         } else if(menuOption == LIST_MOVIES) {
             printListing(MOVIE);
+        } else if(menuOption == CHECKOUT_MOVIE) {
+            runCheckoutMenu(MOVIE);
         } else {
             output.println(MENU_ERROR_MSG);
         }
@@ -104,6 +106,8 @@ public class BibliotecaApp {
 
         if (type.matches(BOOK)) {
             checkoutSuccess = bookCatalogue.checkoutItem(title);
+        } else if (type.matches(MOVIE)) {
+            checkoutSuccess = movieCatalogue.checkoutItem(title);
         }
 
         if (checkoutSuccess) {

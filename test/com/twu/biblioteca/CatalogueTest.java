@@ -33,7 +33,6 @@ public class CatalogueTest {
         assertTrue(bookCatalogue.isAvailable(BibliotecaAppTester.BOOK_1.title));
     }
 
-
     @Test
     public void testCheckoutMovie() {
         assertTrue(movieCatalogue.isAvailable(BibliotecaAppTester.MOVIE_1.name));
