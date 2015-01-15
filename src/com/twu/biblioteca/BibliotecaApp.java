@@ -15,11 +15,14 @@ public class BibliotecaApp {
     public static final List<String> MAIN_MENU_OPTIONS =
             Lists.newArrayList("List Books", "Checkout Book", "Return Book");
     public static final String BOOK = "Book";
+    public static final String MOVIE = "Movie";
+
     public static final int LIST_BOOKS      = 1;
     public static final int CHECKOUT_BOOK   = 2;
     public static final int RETURN_BOOK     = 3;
+    public static final int LIST_MOVIES     = 4;
+
     public static final String DIVIDER = Strings.repeat("-", 100);
-    public static final String BOOK_HEADER = String.format("%-42s | %-32s | %-12s", "Title", "Author", "Year Published");
     public static final String EXIT_CODE = "quit";
     public static final String CHECKOUT_SUCCESS_MSG = "Thank you! Enjoy the %s";
     public static final String CHECKOUT_FAIL_MSG = "That %s is not available.";
@@ -29,13 +32,16 @@ public class BibliotecaApp {
 
 
     private Catalogue<Book> bookCatalogue;
+    private Catalogue<Movie> movieCatalogue;
+
     private InputHandler input;
     private OutputHandler output;
 
-    public BibliotecaApp(InputHandler input, OutputHandler output, Collection<Book> bookList) {
+    public BibliotecaApp(InputHandler input, OutputHandler output, Collection<Book> bookList, Collection<Movie> movieList) {
         this.input = input;
         this.output = output;
         this.bookCatalogue = new Catalogue<Book>(bookList);
+        this.movieCatalogue = new Catalogue<Movie>(movieList);
     }
 
     public void run() {
@@ -71,6 +77,8 @@ public class BibliotecaApp {
             runCheckoutMenu(BOOK);
         } else if(menuOption == RETURN_BOOK) {
             runReturnMenu(BOOK);
+        } else if(menuOption == LIST_MOVIES) {
+            printListing(MOVIE);
         } else {
             output.println(MENU_ERROR_MSG);
         }
@@ -121,9 +129,13 @@ public class BibliotecaApp {
     void printListing(String type) {
         output.println(String.format(LIST_HEADER, type));
         if(type.matches(BOOK)) {
-            output.println(BOOK_HEADER);
+            output.println(Book.HEADER);
             output.println(DIVIDER);
             bookCatalogue.printListing(output);
+        } else if (type.matches(MOVIE)) {
+            output.println(Movie.HEADER);
+            output.println(DIVIDER);
+            movieCatalogue.printListing(output);
         }
     }
 

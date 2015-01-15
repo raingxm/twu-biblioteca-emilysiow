@@ -4,6 +4,7 @@ package com.twu.biblioteca;
  * Created by emilys on 25/12/2014.
  */
 public class Book implements Item {
+    public static final String HEADER = String.format("%-42s | %-32s | %-12s", "Title", "Author", "Year Published");
 
     public String title;
     public String author;
