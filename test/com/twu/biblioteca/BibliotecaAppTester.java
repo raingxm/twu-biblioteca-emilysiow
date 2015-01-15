@@ -7,8 +7,8 @@ import java.util.List;
  */
 public class BibliotecaAppTester {
 
-    public void main(String[] args) {
-        BibliotecaApp app = new BibliotecaApp(initBookList());
+    public static void main(String[] args) {
+        BibliotecaApp app = new BibliotecaApp(new ConsoleInput(), new ConsoleOutput(), initBookList());
         app.run();
     }
 

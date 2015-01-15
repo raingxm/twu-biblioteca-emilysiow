@@ -1,10 +1,9 @@
 package com.twu.biblioteca;
-import java.util.List;
-import java.util.Scanner;
+import java.util.Collection;
 
 public class BibliotecaApp {
 
-    public static final String BOOK = "book";
+    public static final String BOOK = "Book";
     public static final int LIST_BOOKS = 1;
     public static final int CHECKOUT_BOOK = 2;
     public static final int RETURN_BOOK = 3;
@@ -13,10 +12,14 @@ public class BibliotecaApp {
     public static final int RETURN_MOVIE = 6;
     public static final String WELCOME_MESSAGE = "Welcome to Biblioteca!";
 
-    private Library<Book> bookLibrary;
+    private Catalogue<Book> bookLibrary;
+    private InputHandler input;
+    private OutputHandler output;
 
-    public BibliotecaApp(List<Book> bookList) {
-        this.bookLibrary = new Library<Book>(bookList);
+    public BibliotecaApp(InputHandler input, OutputHandler output, Collection<Book> bookList) {
+        this.input = input;
+        this.output = output;
+        this.bookLibrary = new Catalogue<Book>(bookList);
     }
 
     public void run() {
@@ -25,27 +28,26 @@ public class BibliotecaApp {
     }
 
     void displayStartup() {
-        System.out.println(WELCOME_MESSAGE);
+        output.println(WELCOME_MESSAGE);
     }
 
     void runMainMenu() {
-        System.out.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
-        System.out.println("(1) List Books");
-        System.out.println("(2) Checkout Book");
-        System.out.println("(3) Return Book");
-//        System.out.println("(4) List Movies");
-//        System.out.println("(5) Checkout Movie");
-//        System.out.println("(6) Return Movie");
-
-        Scanner console = new Scanner(System.in);
-        String userInput = console.nextLine();
+        output.println("Main Menu (please select one of the following options by typing its number and pressing ENTER)");
+        output.println("(1) List Books");
+        output.println("(2) Checkout Book");
+        output.println("(3) Return Book");
+//        output.println("(4) List Movies");
+//        output.println("(5) Checkout Movie");
+//        output.println("(6) Return Movie");
+        
+        String userInput = input.nextLine();
         while (!userInput.equalsIgnoreCase("quit")) {
             if(isInteger(userInput)) {
                 selectMenuOption(Integer.parseInt(userInput));
             } else {
-                System.out.println("Select a valid option!");
+                output.println("Select a valid option!");
             }
-            userInput = console.nextLine();
+            userInput = input.nextLine();
         }
     }
 
@@ -57,22 +59,22 @@ public class BibliotecaApp {
         } else if(menuOption == RETURN_BOOK) {
             runReturnMenu(BOOK);
         } else {
-            System.out.println("Select a valid option!");
+            output.println("Select a valid option!");
         }
     }
 
     void runCheckoutMenu(String type) {
-        System.out.printf("Enter the title of the %s you wish to check out: ", type);
-        Scanner console = new Scanner(System.in);
-        String userInput = console.nextLine();
+        output.print(String.format("Enter the title of the %s you wish to check out: ", type.toLowerCase()));
+        
+        String userInput = input.nextLine();
         checkoutItem(userInput, type);
     }
 
 
     void runReturnMenu(String type) {
-        System.out.printf("Enter the title of the %s you wish to return: ", type);
-        Scanner console = new Scanner(System.in);
-        String userInput = console.nextLine();
+        output.print(String.format("Enter the title of the %s you wish to return: ", type.toLowerCase()));
+        
+        String userInput = input.nextLine();
         returnItem(userInput, type);
     }
 
@@ -84,9 +86,9 @@ public class BibliotecaApp {
         }
 
         if (checkoutSuccess) {
-            System.out.printf("Thank you! Enjoy the %s\n", type);
+            output.println(String.format("Thank you! Enjoy the %s", type.toLowerCase()));
         } else {
-            System.out.printf("That %s is not available.\n", type);
+            output.println(String.format("That %s is not available.", type.toLowerCase()));
         }
     }
 
@@ -98,17 +100,17 @@ public class BibliotecaApp {
         }
 
         if (returnSuccess) {
-            System.out.printf("Thank you for returning the %s.\n", type);
+            output.println(String.format("Thank you for returning the %s.", type.toLowerCase()));
         } else {
-            System.out.printf("That is not a valid %s to return.\n", type);
+            output.println(String.format("That is not a valid %s to return.", type.toLowerCase()));
         }
     }
 
     void printListing(String type) {
-        System.out.printf("%s List\n", type);
+        output.println(String.format("%s List", type));
         if(type.matches(BOOK)) {
-            System.out.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
-            bookLibrary.printListing();
+            output.print(String.format("%-42s | %-32s | %-12s\n", "Title", "Author", "Year Published"));
+            bookLibrary.printListing(output);
         }
     }
 

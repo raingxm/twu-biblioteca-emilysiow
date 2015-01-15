@@ -1,16 +1,16 @@
 package com.twu.biblioteca;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by esiow on 14/01/2015.
  */
-public class Library<T extends Item> {
-    private List<T> available;
-    private List<T> checkedOut;
+public class Catalogue<T extends Item> {
+    private Collection<T> available;
+    private Collection<T> checkedOut;
 
-    public Library(List<T> listing) {
+    public Catalogue(Collection<T> listing) {
         this.available = listing;
         this.checkedOut = new ArrayList<T>();
     }
@@ -47,7 +47,7 @@ public class Library<T extends Item> {
         return (findTitle(available,title) != null);
     }
 
-    public T findTitle(List<T> listing, String title) {
+    public T findTitle(Collection<T> listing, String title) {
         T item = null;
         for (T t : listing) {
             if (t.matches(title)) {
@@ -57,9 +57,9 @@ public class Library<T extends Item> {
         return item;
     }
 
-    public void printListing() {
+    public void printListing(OutputHandler output) {
         for (T t : this.available) {
-            t.printString();
+            output.println(t.printString());
         }
     }
 }

@@ -20,7 +20,7 @@ public class Book implements Item {
     }
 
     public String printString() {
-        String leftAlignFormat = "%-42s | %-32s | %-4d\n";
+        String leftAlignFormat = "%-42s | %-32s | %-4d";
         return String.format(leftAlignFormat, title, author, yearPublished);
     }
 
