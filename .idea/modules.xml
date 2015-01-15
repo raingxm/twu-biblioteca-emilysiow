@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/biblioteca.iml" filepath="$PROJECT_DIR$/biblioteca.iml" />
-      <module fileurl="file://$PROJECT_DIR$/twu-biblioteca-emilysiow.iml" filepath="$PROJECT_DIR$/twu-biblioteca-emilysiow.iml" />
     </modules>
   </component>
 </project>

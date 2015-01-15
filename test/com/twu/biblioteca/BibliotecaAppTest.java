@@ -22,13 +22,82 @@ public class BibliotecaAppTest {
         input.add(app.EXIT_CODE);
         app.run();
 
-        assertTrue(output.hasMessage(app.WELCOME_MESSAGE));
-        assertTrue(output.hasMessage(app.MAIN_MENU_MESSAGE));
+        assertTrue(output.hasMessage(app.WELCOME_MSG));
+        assertTrue(output.hasMessage(app.MAIN_MENU_MSG));
 
         for (String s : app.MAIN_MENU_OPTIONS) {
             assertTrue(output.hasMessage(s));
         }
     }
+
+    @Test
+    public void testInvalidMenuOption() {
+        input.add(Integer.toString(-1));
+        input.add(app.EXIT_CODE);
+        app.run();
+
+        assertTrue(output.hasMessage(app.MENU_ERROR_MSG));
+    }
+
+    @Test
+    public void testListBooks() {
+        input.add(Integer.toString(app.LIST_BOOKS));
+        input.add(app.EXIT_CODE);
+        app.run();
+
+        assertTrue(output.hasMessage(app.BOOK_HEADER));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_1.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_2.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_3.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_4.printString()));
+    }
+
+    @Test
+    public void testMenuLoop() {
+        input.add(Lists.newArrayList(Integer.toString(app.LIST_BOOKS), Integer.toString(-1), app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(app.BOOK_HEADER));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_1.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_2.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_3.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_4.printString()));
+        assertTrue(output.hasMessage(app.MENU_ERROR_MSG));
+    }
+
+    @Test
+    public void testCheckoutBookSuccess() {
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
+    }
+
+    @Test
+    public void testCheckoutBookFail() {
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), "-1", app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.BOOK.toLowerCase())));
+    }
+
+    @Test
+    public void testReturnBookSuccess() {
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.BOOK_3.title));
+        input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.RETURN_SUCCESS_MSG, app.BOOK.toLowerCase())));
+    }
+
+    @Test
+    public void testReturnBookFail() {
+        input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.RETURN_FAIL_MSG, app.BOOK.toLowerCase())));
+    }
+
 }
 
 

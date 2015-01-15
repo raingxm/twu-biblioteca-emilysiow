@@ -17,14 +17,14 @@ public class CatalogueTest {
     }
 
     @Test
-    public void testCheckoutBookSuccess() {
+    public void testCheckoutBook() {
         assertTrue(bookCatalogue.isAvailable(BibliotecaAppTester.BOOK_1.title));
         bookCatalogue.checkoutItem(BibliotecaAppTester.BOOK_1.title);
         assertFalse(bookCatalogue.isAvailable(BibliotecaAppTester.BOOK_1.title));
     }
 
     @Test
-    public void testReturnBookSuccess() {
+    public void testReturnBook() {
         bookCatalogue.checkoutItem(BibliotecaAppTester.BOOK_1.title);
         assertFalse(bookCatalogue.isAvailable(BibliotecaAppTester.BOOK_1.title));
         bookCatalogue.returnItem(BibliotecaAppTester.BOOK_1.title);

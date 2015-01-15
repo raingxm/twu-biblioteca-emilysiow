@@ -8,9 +8,9 @@ import java.util.List;
 public class BibliotecaApp {
 
 
-    public static final String WELCOME_MESSAGE = "Welcome to Biblioteca!";
-    public static final String MENU_ERROR_MESSAGE = "Select a valid option!";
-    public static final String MAIN_MENU_MESSAGE =
+    public static final String WELCOME_MSG = "Welcome to Biblioteca!";
+    public static final String MENU_ERROR_MSG = "Select a valid option!";
+    public static final String MAIN_MENU_MSG =
             "Main Menu (please select one of the following options by typing its number and pressing ENTER)";
     public static final List<String> MAIN_MENU_OPTIONS =
             Lists.newArrayList("List Books", "Checkout Book", "Return Book");
@@ -21,6 +21,12 @@ public class BibliotecaApp {
     public static final String DIVIDER = Strings.repeat("-", 100);
     public static final String BOOK_HEADER = String.format("%-42s | %-32s | %-12s", "Title", "Author", "Year Published");
     public static final String EXIT_CODE = "quit";
+    public static final String CHECKOUT_SUCCESS_MSG = "Thank you! Enjoy the %s";
+    public static final String CHECKOUT_FAIL_MSG = "That %s is not available.";
+    public static final String RETURN_SUCCESS_MSG = "Thank you for returning the %s.";
+    public static final String RETURN_FAIL_MSG = "That is not a valid %s to return.";
+    public static final String LIST_HEADER = "%s List";
+
 
     private Catalogue<Book> bookCatalogue;
     private InputHandler input;
@@ -38,11 +44,11 @@ public class BibliotecaApp {
     }
 
     void displayStartup() {
-        output.println(WELCOME_MESSAGE);
+        output.println(WELCOME_MSG);
     }
 
     void runMainMenu() {
-        output.println(MAIN_MENU_MESSAGE);
+        output.println(MAIN_MENU_MSG);
         for(int i=0; i < MAIN_MENU_OPTIONS.size(); i++) {
             output.println(String.format("(%d) %s", i+1, MAIN_MENU_OPTIONS.get(i)));
         }
@@ -52,7 +58,7 @@ public class BibliotecaApp {
             if(isInteger(userInput)) {
                 selectMenuOption(Integer.parseInt(userInput));
             } else {
-                output.println(MENU_ERROR_MESSAGE);
+                output.println(MENU_ERROR_MSG);
             }
             userInput = input.nextLine();
         }
@@ -66,20 +72,20 @@ public class BibliotecaApp {
         } else if(menuOption == RETURN_BOOK) {
             runReturnMenu(BOOK);
         } else {
-            output.println(MENU_ERROR_MESSAGE);
+            output.println(MENU_ERROR_MSG);
         }
     }
 
     void runCheckoutMenu(String type) {
         output.print(String.format("Enter the title of the %s you wish to check out: ", type.toLowerCase()));
-        
+
         String userInput = input.nextLine();
         checkoutItem(userInput, type);
     }
 
     void runReturnMenu(String type) {
         output.print(String.format("Enter the title of the %s you wish to return: ", type.toLowerCase()));
-        
+
         String userInput = input.nextLine();
         returnItem(userInput, type);
     }
@@ -92,9 +98,9 @@ public class BibliotecaApp {
         }
 
         if (checkoutSuccess) {
-            output.println(String.format("Thank you! Enjoy the %s", type.toLowerCase()));
+            output.println(String.format(CHECKOUT_SUCCESS_MSG, type.toLowerCase()));
         } else {
-            output.println(String.format("That %s is not available.", type.toLowerCase()));
+            output.println(String.format(CHECKOUT_FAIL_MSG, type.toLowerCase()));
         }
     }
 
@@ -106,14 +112,14 @@ public class BibliotecaApp {
         }
 
         if (returnSuccess) {
-            output.println(String.format("Thank you for returning the %s.", type.toLowerCase()));
+            output.println(String.format(RETURN_SUCCESS_MSG, type.toLowerCase()));
         } else {
-            output.println(String.format("That is not a valid %s to return.", type.toLowerCase()));
+            output.println(String.format(RETURN_FAIL_MSG, type.toLowerCase()));
         }
     }
 
     void printListing(String type) {
-        output.println(String.format("%s List", type));
+        output.println(String.format(LIST_HEADER, type));
         if(type.matches(BOOK)) {
             output.println(BOOK_HEADER);
             output.println(DIVIDER);

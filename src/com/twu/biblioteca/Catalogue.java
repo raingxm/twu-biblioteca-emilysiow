@@ -35,6 +35,12 @@ public class Catalogue<T extends Item> {
         return false;
     }
 
+    public void printListing(OutputHandler output) {
+        for (T t : this.available) {
+            output.println(t.printString());
+        }
+    }
+
     boolean isAvailable(String title) {
         return (findTitle(available,title) != null);
     }
@@ -49,9 +55,4 @@ public class Catalogue<T extends Item> {
         return item;
     }
 
-    public void printListing(OutputHandler output) {
-        for (T t : this.available) {
-            output.println(t.printString());
-        }
-    }
 }
