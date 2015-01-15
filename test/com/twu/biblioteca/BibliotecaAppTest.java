@@ -32,8 +32,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testInvalidMenuOption() {
-        input.add(Integer.toString(-1));
-        input.add(app.EXIT_CODE);
+        input.add(Lists.newArrayList(Integer.toString(-1), app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(app.MENU_ERROR_MSG));
@@ -41,8 +40,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testListBooks() {
-        input.add(Integer.toString(app.LIST_BOOKS));
-        input.add(app.EXIT_CODE);
+        input.add(Lists.newArrayList(Integer.toString(app.LIST_BOOKS), app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(app.BOOK_HEADER));
@@ -50,6 +48,17 @@ public class BibliotecaAppTest {
         assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_2.printString()));
         assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_3.printString()));
         assertTrue(output.hasMessage(BibliotecaAppTester.BOOK_4.printString()));
+    }
+
+    @Test
+    public void testListMovies() {
+        input.add(Lists.newArrayList(Integer.toString(app.LIST_MOVIES), app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(app.MOVIE_HEADER));
+        assertTrue(output.hasMessage(BibliotecaAppTester.MOVIE_1.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.MOVIE_2.printString()));
+        assertTrue(output.hasMessage(BibliotecaAppTester.MOVIE_3.printString()));
     }
 
     @Test
