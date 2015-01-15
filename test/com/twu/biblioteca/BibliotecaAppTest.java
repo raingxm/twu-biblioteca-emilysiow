@@ -113,6 +113,22 @@ public class BibliotecaAppTest {
         assertTrue(output.hasMessage(String.format(app.RETURN_FAIL_MSG, app.BOOK.toLowerCase())));
     }
 
+    @Test
+    public void testCheckoutMovieSuccess() {
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), BibliotecaAppTester.MOVIE_1.name, app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.MOVIE.toLowerCase())));
+    }
+
+    @Test
+    public void testCheckoutMovieFail() {
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), "-1", app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.MOVIE.toLowerCase())));
+    }
+
 }
 
 

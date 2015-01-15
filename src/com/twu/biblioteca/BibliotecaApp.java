@@ -21,6 +21,7 @@ public class BibliotecaApp {
     public static final int CHECKOUT_BOOK   = 2;
     public static final int RETURN_BOOK     = 3;
     public static final int LIST_MOVIES     = 4;
+    public static final int CHECKOUT_MOVIE  = 5;
 
     public static final String DIVIDER = Strings.repeat("-", 100);
     public static final String EXIT_CODE = "quit";
