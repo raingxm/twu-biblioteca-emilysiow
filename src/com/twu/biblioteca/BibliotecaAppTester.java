@@ -16,8 +16,13 @@ public class BibliotecaAppTester {
     public static final Movie MOVIE_2 = new Movie("Big Hero 6", "Don Hall & Chris Williams", 2014, 9);
     public static final Movie MOVIE_3 = new Movie("The Last Five Years", "Richard LaGravenese", 2015);
 
+    public static final User USER_1 = new User(1237654, "password");
+    public static final User USER_2 = new User(9871234, "pword");
+    public static final User USER_3 = new User(8881234, "word");
+
+
     public static void main(String[] args) {
-        BibliotecaApp app = new BibliotecaApp(new ConsoleInputHandler(), new ConsoleOutputHandler(), initBookList(), initMovieList());
+        BibliotecaApp app = new BibliotecaApp(new ConsoleInputHandler(), new ConsoleOutputHandler(), initBookList(), initMovieList(), initUserList());
         app.run();
     }
 
@@ -38,4 +43,11 @@ public class BibliotecaAppTester {
         return movieList;
     }
 
+    static Collection<User> initUserList() {
+        Collection<User> userList = new ArrayList<User>();
+        userList.add(USER_1);
+        userList.add(USER_2);
+        userList.add(USER_3);
+        return userList;
+    }
 }

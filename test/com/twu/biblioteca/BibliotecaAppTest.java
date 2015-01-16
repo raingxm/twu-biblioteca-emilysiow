@@ -11,6 +11,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BibliotecaAppTest {
+    private static final int INVALID_OPTION = -1;
+    private static final String INVALID_TITLE = "-1";
+    private static final int INVALID_LIBRARY_NUM = -1;
+    private static final String INVALID_PASSWORD = "-1";
+
     private TestInputHandler input = new TestInputHandler();
     private TestOutputHandler output = new TestOutputHandler();
     private Collection<Book> bookList  = BibliotecaAppTester.initBookList();
@@ -38,7 +43,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testInvalidMenuOption() {
-        input.add(Lists.newArrayList(Integer.toString(-1), app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(INVALID_OPTION), app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(app.MENU_ERROR_MSG));
@@ -69,7 +74,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testMenuLoop() {
-        input.add(Lists.newArrayList(Integer.toString(app.LIST_BOOKS), Integer.toString(-1), app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.LIST_BOOKS), Integer.toString(INVALID_OPTION), app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(Book.HEADER));
@@ -90,7 +95,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCheckoutBookFail() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), "-1", app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), INVALID_TITLE, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.BOOK.toLowerCase())));
@@ -123,11 +128,35 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCheckoutMovieFail() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), "-1", app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), INVALID_TITLE, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.MOVIE.toLowerCase())));
     }
+
+    @Test
+    public void testUserLoginSuccess() {
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, BibliotecaApp.USER_1.pword, BibliotecaAppTester.BOOK_1.title, app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
+    }
+//
+//    @Test
+//    public void testUserLoginPasswordFail() {
+//        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, INVALID_PASSWORD, BibliotecaAppTester.BOOK_1.title, app.EXIT_CODE));
+//        app.run();
+//
+//        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
+//    }
+//
+//    @Test
+//    public void testUserLoginLibraryNumFail() {
+//        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), INVALID_LIBRARY_NUM, BibliotecaApp.USER_1.pword, BibliotecaAppTester.BOOK_1.title, app.EXIT_CODE));
+//        app.run();
+//
+//        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
+//    }
 
 }
 
