@@ -4,6 +4,7 @@ package com.twu.biblioteca;
  * Created by esiow on 16/01/2015.
  */
 public class User implements Item {
+    public static final String HEADER = String.format("%-42s | %-32s | %-12s", "Name", "Email Address", "Phone Number");
 
     public String libraryNum;
     private String pword;

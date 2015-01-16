@@ -161,7 +161,10 @@ public class BibliotecaAppTest {
     @Test
     public void testUserNotLoggedIn() {
         User u = app.currentUser;
+        app.runMainMenu();
+
         assertNull(u);
+        assertFalse(output.hasMessage(String.format(app.USER_INFO_MENU_OPTION)));
     }
 
     @Test
@@ -171,6 +174,19 @@ public class BibliotecaAppTest {
 
         User u = app.currentUser;
         assertNotNull(u);
+        assertTrue(output.hasMessage(String.format(app.USER_INFO_MENU_OPTION)));
+    }
+
+    @Test
+    public void testDisplayUserInformation() {
+        input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, USER_1_PASSWORD));
+        app.userAuthenticate();
+
+        input.add(Lists.newArrayList(Integer.toString(app.USER_INFO), app.EXIT_CODE));
+        app.run();
+
+        assertTrue(output.hasMessage(User.HEADER));
+        assertTrue(output.hasMessage(BibliotecaAppTester.USER_1.printString()));
     }
 
 }
