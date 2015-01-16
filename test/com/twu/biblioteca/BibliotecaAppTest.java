@@ -13,19 +13,20 @@ import static org.junit.Assert.assertTrue;
 public class BibliotecaAppTest {
     private static final int INVALID_OPTION = -1;
     private static final String INVALID_TITLE = "-1";
-    private static final int INVALID_LIBRARY_NUM = -1;
-    private static final String INVALID_PASSWORD = "-1";
+    private static final String INVALID_LIBRARY_NUM = "-1";
+    private static final String INVALID_PASSWORD = "";
 
     private TestInputHandler input = new TestInputHandler();
     private TestOutputHandler output = new TestOutputHandler();
     private Collection<Book> bookList  = BibliotecaAppTester.initBookList();
     private Collection<Movie> movieList = BibliotecaAppTester.initMovieList();
+    private Collection<User> userList = BibliotecaAppTester.initUserList();
 
     private BibliotecaApp app;
 
     @Before
     public void initialize() {
-        app = new BibliotecaApp(input, output, bookList, movieList);
+        app = new BibliotecaApp(input, output, bookList, movieList, userList);
     }
 
     @Test
@@ -86,8 +87,16 @@ public class BibliotecaAppTest {
     }
 
     @Test
+    public void testUserLoginSuccess() {
+        input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, "password"));
+        boolean loginSuccess = app.userAuthenticate();
+
+        assertTrue(loginSuccess);
+    }
+
+    @Test
     public void testCheckoutBookSuccess() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK),BibliotecaAppTester.USER_1.libraryNum, "password", BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
@@ -95,7 +104,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCheckoutBookFail() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), INVALID_TITLE, app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, "password", INVALID_TITLE, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.BOOK.toLowerCase())));
@@ -103,7 +112,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testReturnBookSuccess() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.BOOK_3.title));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, "password", BibliotecaAppTester.BOOK_3.title));
         input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
         app.run();
 
@@ -120,7 +129,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCheckoutMovieSuccess() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), BibliotecaAppTester.MOVIE_1.name, app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), BibliotecaAppTester.USER_1.libraryNum, "password", BibliotecaAppTester.MOVIE_1.name, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.MOVIE.toLowerCase())));
@@ -128,19 +137,12 @@ public class BibliotecaAppTest {
 
     @Test
     public void testCheckoutMovieFail() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), INVALID_TITLE, app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_MOVIE), BibliotecaAppTester.USER_1.libraryNum, "password", INVALID_TITLE, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.MOVIE.toLowerCase())));
     }
 
-    @Test
-    public void testUserLoginSuccess() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, BibliotecaApp.USER_1.pword, BibliotecaAppTester.BOOK_1.title, app.EXIT_CODE));
-        app.run();
-
-        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
-    }
 //
 //    @Test
 //    public void testUserLoginPasswordFail() {
@@ -157,6 +159,10 @@ public class BibliotecaAppTest {
 //
 //        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
 //    }
+
+    /**
+     * Helpers
+     */
 
 }
 

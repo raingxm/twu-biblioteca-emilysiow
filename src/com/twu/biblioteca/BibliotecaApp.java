@@ -3,7 +3,9 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BibliotecaApp {
 
@@ -14,6 +16,10 @@ public class BibliotecaApp {
             "Main Menu (please select one of the following options by typing its number and pressing ENTER)";
     public static final List<String> MAIN_MENU_OPTIONS =
             Lists.newArrayList("List Books", "Checkout Book", "Return Book", "List Movies", "Checkout Movie");
+    public static final String LOGIN_MSG = "You need to login to continue with this action";
+    public static final String LIBRARY_NUM_PROMPT = "Please enter your library membership number (xxx-xxxx): ";
+    public static final String PWORD_PROMPT = "Please enter your password: ";
+
     public static final String BOOK = "Book";
     public static final String MOVIE = "Movie";
 
@@ -34,15 +40,17 @@ public class BibliotecaApp {
 
     private Catalogue<Book> bookCatalogue;
     private Catalogue<Movie> movieCatalogue;
+    private UserDatabase userList;
 
     private InputHandler input;
     private OutputHandler output;
 
-    public BibliotecaApp(InputHandler input, OutputHandler output, Collection<Book> bookList, Collection<Movie> movieList) {
+    public BibliotecaApp(InputHandler input, OutputHandler output, Collection<Book> bookList, Collection<Movie> movieList, Collection<User> userList) {
         this.input = input;
         this.output = output;
         this.bookCatalogue = new Catalogue<Book>(bookList);
         this.movieCatalogue = new Catalogue<Movie>(movieList);
+        this.userList = new UserDatabase(userList);
     }
 
     public void run() {
@@ -88,10 +96,14 @@ public class BibliotecaApp {
     }
 
     void runCheckoutMenu(String type) {
-        output.print(String.format("Enter the title of the %s you wish to check out: ", type.toLowerCase()));
+        if (userAuthenticate()) {
+            output.print(String.format("Enter the title of the %s you wish to check out: ", type.toLowerCase()));
 
-        String userInput = input.nextLine();
-        checkoutItem(userInput, type);
+            String userInput = input.nextLine();
+            checkoutItem(userInput, type);
+        } else {
+            // some error message
+        }
     }
 
     void runReturnMenu(String type) {
@@ -142,6 +154,20 @@ public class BibliotecaApp {
             output.println(DIVIDER);
             movieCatalogue.printListing(output);
         }
+    }
+
+    boolean userAuthenticate() {
+        boolean loginSuccess = false;
+        output.println(LOGIN_MSG);
+        output.print(LIBRARY_NUM_PROMPT);
+        String userInput = input.nextLine();
+        User u = userList.findByLibraryNum(userInput);
+        if (u != null) {
+            output.print(PWORD_PROMPT);
+            userInput = input.nextLine();
+            loginSuccess = (u.login(userInput));
+        }
+        return loginSuccess;
     }
 
     static boolean isInteger(String input) {
