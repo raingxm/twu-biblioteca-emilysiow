@@ -43,6 +43,7 @@ public class BibliotecaApp {
     private Catalogue<Book> bookCatalogue;
     private Catalogue<Movie> movieCatalogue;
     private UserDatabase userList;
+    public User currentUser;
 
     private InputHandler input;
     private OutputHandler output;
@@ -53,6 +54,7 @@ public class BibliotecaApp {
         this.bookCatalogue = new Catalogue<Book>(bookList);
         this.movieCatalogue = new Catalogue<Movie>(movieList);
         this.userList = new UserDatabase(userList);
+        this.currentUser = null;
     }
 
     public void run() {
@@ -162,17 +164,23 @@ public class BibliotecaApp {
     }
 
     boolean userAuthenticate() {
-        boolean loginSuccess = false;
-        output.println(LOGIN_MSG);
-        output.print(LIBRARY_NUM_PROMPT);
-        String userInput = input.nextLine();
-        User u = userList.findByLibraryNum(userInput);
-        if (u != null) {
-            output.print(PWORD_PROMPT);
-            userInput = input.nextLine();
-            loginSuccess = (u.login(userInput));
+        if (currentUser != null) {
+            return true;
+        } else {
+            output.println(LOGIN_MSG);
+            output.print(LIBRARY_NUM_PROMPT);
+            String userInput = input.nextLine();
+            User u = userList.findByLibraryNum(userInput);
+            if (u != null) {
+                output.print(PWORD_PROMPT);
+                userInput = input.nextLine();
+                if (u.login(userInput)) {
+                    currentUser = u;
+                    return true;
+                }
+            }
+            return false;
         }
-        return loginSuccess;
     }
 
     static boolean isInteger(String input) {

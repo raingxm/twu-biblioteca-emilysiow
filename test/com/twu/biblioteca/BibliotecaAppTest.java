@@ -127,7 +127,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testReturnBookSuccess() {
-        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, USER_1_PASSWORD, BibliotecaAppTester.BOOK_3.title));
+        app.checkoutItem(BibliotecaAppTester.BOOK_3.title, BibliotecaApp.BOOK);
         input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.USER_1.libraryNum, USER_1_PASSWORD, BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
         app.run();
 
@@ -160,7 +160,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testUserNotLoggedIn() {
-        User u = app.getCurrentUser();
+        User u = app.currentUser;
         assertNull(u);
     }
 
@@ -169,7 +169,7 @@ public class BibliotecaAppTest {
         input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, USER_1_PASSWORD));
         app.userAuthenticate();
 
-        User u = app.getCurrentUser();
+        User u = app.currentUser;
         assertNotNull(u);
     }
 
