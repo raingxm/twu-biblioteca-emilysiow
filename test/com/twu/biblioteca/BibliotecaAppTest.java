@@ -87,11 +87,27 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void testUserLoginSuccess() {
+    public void testLoginSuccess() {
         input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, "password"));
         boolean loginSuccess = app.userAuthenticate();
 
         assertTrue(loginSuccess);
+    }
+
+    @Test
+    public void testLoginInvalidLibraryNumFail() {
+        input.add(Lists.newArrayList(INVALID_LIBRARY_NUM));
+        boolean loginSuccess = app.userAuthenticate();
+
+        assertFalse(loginSuccess);
+    }
+
+    @Test
+    public void testLoginInvalidPasswordFail() {
+        input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, INVALID_PASSWORD));
+        boolean loginSuccess = app.userAuthenticate();
+
+        assertFalse(loginSuccess);
     }
 
     @Test
@@ -113,7 +129,7 @@ public class BibliotecaAppTest {
     @Test
     public void testReturnBookSuccess() {
         input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, "password", BibliotecaAppTester.BOOK_3.title));
-        input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.USER_1.libraryNum, "password", BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.RETURN_SUCCESS_MSG, app.BOOK.toLowerCase())));
@@ -121,7 +137,7 @@ public class BibliotecaAppTest {
 
     @Test
     public void testReturnBookFail() {
-        input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.RETURN_BOOK), BibliotecaAppTester.USER_1.libraryNum, "password", BibliotecaAppTester.BOOK_3.title, app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(String.format(app.RETURN_FAIL_MSG, app.BOOK.toLowerCase())));
@@ -142,23 +158,6 @@ public class BibliotecaAppTest {
 
         assertTrue(output.hasMessage(String.format(app.CHECKOUT_FAIL_MSG, app.MOVIE.toLowerCase())));
     }
-
-//
-//    @Test
-//    public void testUserLoginPasswordFail() {
-//        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), BibliotecaAppTester.USER_1.libraryNum, INVALID_PASSWORD, BibliotecaAppTester.BOOK_1.title, app.EXIT_CODE));
-//        app.run();
-//
-//        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
-//    }
-//
-//    @Test
-//    public void testUserLoginLibraryNumFail() {
-//        input.add(Lists.newArrayList(Integer.toString(app.CHECKOUT_BOOK), INVALID_LIBRARY_NUM, BibliotecaApp.USER_1.pword, BibliotecaAppTester.BOOK_1.title, app.EXIT_CODE));
-//        app.run();
-//
-//        assertTrue(output.hasMessage(String.format(app.CHECKOUT_SUCCESS_MSG, app.BOOK.toLowerCase())));
-//    }
 
     /**
      * Helpers

@@ -17,8 +17,10 @@ public class BibliotecaApp {
     public static final List<String> MAIN_MENU_OPTIONS =
             Lists.newArrayList("List Books", "Checkout Book", "Return Book", "List Movies", "Checkout Movie");
     public static final String LOGIN_MSG = "You need to login to continue with this action";
-    public static final String LIBRARY_NUM_PROMPT = "Please enter your library membership number (xxx-xxxx): ";
+    public static final String LIBRARY_NUM_PROMPT = "Please enter your library number (xxx-xxxx): ";
     public static final String PWORD_PROMPT = "Please enter your password: ";
+    public static final String LOGIN_ERROR_MSG = "Login failed (incorrect library number or password).";
+
 
     public static final String BOOK = "Book";
     public static final String MOVIE = "Movie";
@@ -102,17 +104,20 @@ public class BibliotecaApp {
             String userInput = input.nextLine();
             checkoutItem(userInput, type);
         } else {
-            // some error message
+            output.println(LOGIN_ERROR_MSG);
         }
     }
 
     void runReturnMenu(String type) {
-        output.print(String.format("Enter the title of the %s you wish to return: ", type.toLowerCase()));
+        if (userAuthenticate()) {
+            output.print(String.format("Enter the title of the %s you wish to return: ", type.toLowerCase()));
 
-        String userInput = input.nextLine();
-        returnItem(userInput, type);
+            String userInput = input.nextLine();
+            returnItem(userInput, type);
+        } else {
+            output.println(LOGIN_ERROR_MSG);
+        }
     }
-
     void checkoutItem(String title, String type) {
         boolean checkoutSuccess = false;
 
