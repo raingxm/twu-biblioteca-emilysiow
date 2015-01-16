@@ -6,10 +6,16 @@ package com.twu.biblioteca;
 public class User implements Item {
     public static final String HEADER = String.format("%-42s | %-32s | %-12s", "Name", "Email Address", "Phone Number");
 
+    public String name;
+    public String email;
+    public String phoneNum;
     public String libraryNum;
     private String pword;
 
-    public User(String libraryNum, String pword) {
+    public User(String name, String email, String phoneNum, String libraryNum, String pword) {
+        this.name = name;
+        this.email = email;
+        this.phoneNum = phoneNum;
         this.libraryNum = libraryNum;
         this.pword = pword;
     }
@@ -25,6 +31,12 @@ public class User implements Item {
 
     @Override
     public String printString() {
-        return this.libraryNum;
+        String leftAlignFormat = "%-42s | %-32s | %-10s";
+        return String.format(leftAlignFormat, name, email, phoneNum);
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

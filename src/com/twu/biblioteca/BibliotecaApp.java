@@ -15,7 +15,7 @@ public class BibliotecaApp {
     public static final String MAIN_MENU_MSG =
             "Main Menu (please select one of the following options by typing its number and pressing ENTER)";
     public static final List<String> MAIN_MENU_OPTIONS =
-            Lists.newArrayList("List Books", "Checkout Book", "Return Book", "List Movies", "Checkout Movie");
+            Lists.newArrayList("View My Info", "List Books", "Checkout Book", "Return Book", "List Movies", "Checkout Movie");
     public static final String LOGIN_MSG = "You need to login to continue with this action";
     public static final String LIBRARY_NUM_PROMPT = "Please enter your library number (xxx-xxxx): ";
     public static final String PWORD_PROMPT = "Please enter your password: ";
@@ -25,6 +25,7 @@ public class BibliotecaApp {
     public static final String BOOK = "Book";
     public static final String MOVIE = "Movie";
 
+    public static final int SHOW_USER_INFO  = 0;
     public static final int LIST_BOOKS      = 1;
     public static final int CHECKOUT_BOOK   = 2;
     public static final int RETURN_BOOK     = 3;
@@ -67,10 +68,7 @@ public class BibliotecaApp {
     }
 
     void runMainMenu() {
-        output.println(MAIN_MENU_MSG);
-        for(int i=0; i < MAIN_MENU_OPTIONS.size(); i++) {
-            output.println(String.format("(%d) %s", i+1, MAIN_MENU_OPTIONS.get(i)));
-        }
+        printMainMenu();
 
         String userInput = input.nextLine();
         while (!userInput.equalsIgnoreCase(EXIT_CODE)) {
@@ -79,12 +77,25 @@ public class BibliotecaApp {
             } else {
                 output.println(MENU_ERROR_MSG);
             }
+            printMainMenu();
             userInput = input.nextLine();
         }
     }
 
+    private void printMainMenu() {
+        output.println(MAIN_MENU_MSG);
+        if (currentUser != null) {
+            output.println(String.format("(%d) %s", SHOW_USER_INFO, MAIN_MENU_OPTIONS.get(SHOW_USER_INFO)));
+        }
+        for(int i=1; i < MAIN_MENU_OPTIONS.size(); i++) {
+            output.println(String.format("(%d) %s", i, MAIN_MENU_OPTIONS.get(i)));
+        }
+    }
+
     void selectMenuOption(int menuOption) {
-        if(menuOption == LIST_BOOKS) {
+        if (menuOption == SHOW_USER_INFO && currentUser != null) {
+            printUserInfo();
+        } else if(menuOption == LIST_BOOKS) {
             printListing(BOOK);
         } else if(menuOption == CHECKOUT_BOOK) {
             runCheckoutMenu(BOOK);
@@ -97,6 +108,12 @@ public class BibliotecaApp {
         } else {
             output.println(MENU_ERROR_MSG);
         }
+    }
+
+    private void printUserInfo() {
+        output.println(User.HEADER);
+        output.println(DIVIDER);
+        output.println(currentUser.printString());
     }
 
     void runCheckoutMenu(String type) {
@@ -167,20 +184,30 @@ public class BibliotecaApp {
         if (currentUser != null) {
             return true;
         } else {
-            output.println(LOGIN_MSG);
-            output.print(LIBRARY_NUM_PROMPT);
-            String userInput = input.nextLine();
-            User u = userList.findByLibraryNum(userInput);
-            if (u != null) {
-                output.print(PWORD_PROMPT);
-                userInput = input.nextLine();
-                if (u.login(userInput)) {
-                    currentUser = u;
-                    return true;
-                }
-            }
-            return false;
+            return userExists();
         }
+    }
+
+    private boolean userExists() {
+        output.println(LOGIN_MSG);
+        output.print(LIBRARY_NUM_PROMPT);
+        String userInput = input.nextLine();
+        User u = userList.findByLibraryNum(userInput);
+        if (u != null) {
+            return checkPassword(u);
+        }
+        return false;
+    }
+
+    private boolean checkPassword(User u) {
+        String userInput;
+        output.print(PWORD_PROMPT);
+        userInput = input.nextLine();
+        if (u.login(userInput)) {
+            currentUser = u;
+            return true;
+        }
+        return false;
     }
 
     static boolean isInteger(String input) {

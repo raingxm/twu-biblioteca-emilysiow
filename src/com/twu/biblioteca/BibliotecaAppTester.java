@@ -16,9 +16,9 @@ public class BibliotecaAppTester {
     public static final Movie MOVIE_2 = new Movie("Big Hero 6", "Don Hall & Chris Williams", 2014, 9);
     public static final Movie MOVIE_3 = new Movie("The Last Five Years", "Richard LaGravenese", 2015);
 
-    public static final User USER_1 = new User("123-4567", "password");
-    public static final User USER_2 = new User("098-7654", "pword");
-    public static final User USER_3 = new User("321-7890", "word");
+    public static final User USER_1 = new User("Emily Siow", "esiow@thoughtworks.com", "0414485955", "123-4567", "password");
+    public static final User USER_2 = new User("Jessie Leung", "jleung@thoughtworks.com", "0414485915", "098-7654", "pword");
+    public static final User USER_3 = new User("Anna Le",  "leanna@thoughtworks.com", "0414485925", "321-7890", "word");
 
 
     public static void main(String[] args) {

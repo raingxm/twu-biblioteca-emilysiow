@@ -16,10 +16,12 @@ public class Book implements Item {
         this.yearPublished = yearPublished;
     }
 
+    @Override
     public boolean matches(String title) {
         return this.title.equalsIgnoreCase(title);
     }
 
+    @Override
     public String printString() {
         String leftAlignFormat = "%-42s | %-32s | %-4d";
         return String.format(leftAlignFormat, title, author, yearPublished);

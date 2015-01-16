@@ -26,10 +26,12 @@ public class Movie implements Item {
         this.rating = rating;
     }
 
-    public boolean matches(String name) {
+    @Override
+     public boolean matches(String name) {
         return this.name.equalsIgnoreCase(name);
     }
 
+    @Override
     public String printString() {
         String leftAlignFormat = "%-42s | %-32s | %-4d | %-7s";
         String printRating = Integer.toString(rating);

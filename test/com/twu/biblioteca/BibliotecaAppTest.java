@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import com.google.common.collect.Lists;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +26,12 @@ public class BibliotecaAppTest {
 
     @Before
     public void initialize() {
+        input = new TestInputHandler();
+        output = new TestOutputHandler();
+        bookList  = BibliotecaAppTester.initBookList();
+        movieList = BibliotecaAppTester.initMovieList();
+        userList = BibliotecaAppTester.initUserList();
+
         app = new BibliotecaApp(input, output, bookList, movieList, userList);
     }
 
@@ -36,7 +43,7 @@ public class BibliotecaAppTest {
         assertTrue(output.hasMessage(app.WELCOME_MSG));
         assertTrue(output.hasMessage(app.MAIN_MENU_MSG));
 
-        for (String s : app.MAIN_MENU_OPTIONS) {
+        for (String s : app.MAIN_MENU_OPTIONS.subList(1,app.MAIN_MENU_OPTIONS.size()-1)) {
             assertTrue(output.hasMessage(s));
         }
     }
@@ -161,28 +168,30 @@ public class BibliotecaAppTest {
     @Test
     public void testUserNotLoggedIn() {
         User u = app.currentUser;
-        app.runMainMenu();
+        input.add(app.EXIT_CODE);
+        app.run();
 
         assertNull(u);
-        assertFalse(output.hasMessage(String.format(app.USER_INFO_MENU_OPTION)));
+        assertFalse(output.hasMessage(app.MAIN_MENU_OPTIONS.get(app.SHOW_USER_INFO)));
     }
 
     @Test
     public void testUserLoggedIn() {
         input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, USER_1_PASSWORD));
         app.userAuthenticate();
+        input.add(app.EXIT_CODE);
+        app.run();
 
         User u = app.currentUser;
         assertNotNull(u);
-        assertTrue(output.hasMessage(String.format(app.USER_INFO_MENU_OPTION)));
+        assertTrue(output.hasMessage(app.MAIN_MENU_OPTIONS.get(app.SHOW_USER_INFO)));
     }
 
     @Test
     public void testDisplayUserInformation() {
         input.add(Lists.newArrayList(BibliotecaAppTester.USER_1.libraryNum, USER_1_PASSWORD));
         app.userAuthenticate();
-
-        input.add(Lists.newArrayList(Integer.toString(app.USER_INFO), app.EXIT_CODE));
+        input.add(Lists.newArrayList(Integer.toString(app.SHOW_USER_INFO), app.EXIT_CODE));
         app.run();
 
         assertTrue(output.hasMessage(User.HEADER));
